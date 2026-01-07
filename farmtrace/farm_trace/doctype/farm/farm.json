@@ -1,13 +1,12 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2026-01-05 23:59:00.000000",
+ "creation": "2026-01-05 23:59:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "tab_basic_info",
   "section_farm_details",
-  "farm_code",
   "farm_id",
   "farm_name",
   "farmer",
@@ -30,6 +29,7 @@
   "plotting_status",
   "status",
   "ra_farm_status",
+  "column_break_snxf",
   "is_verified",
   "verified_date",
   "veriied_agent_id",
@@ -51,6 +51,7 @@
   "crop_type",
   "vegetables_name",
   "kitchen_garden",
+  "column_break_chla",
   "back_yard_poultry",
   "section_training",
   "training_program",
@@ -61,11 +62,13 @@
   "tab_organization",
   "section_organization",
   "samithi_id",
+  "column_break_gjia",
   "fpo",
   "tab_media",
   "section_media",
   "photo",
   "photo_capturing_time",
+  "column_break_tpzc",
   "audio",
   "image_name",
   "tab_additional",
@@ -81,15 +84,9 @@
    "label": "Basic Information"
   },
   {
-   "collapsible": 1,
    "fieldname": "section_farm_details",
    "fieldtype": "Section Break",
    "label": "Farm Details"
-  },
-  {
-   "fieldname": "farm_code",
-   "fieldtype": "Data",
-   "label": "Farm Code"
   },
   {
    "fieldname": "farm_id",
@@ -99,12 +96,14 @@
   {
    "fieldname": "farm_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Farm Name",
    "reqd": 1
   },
   {
    "fieldname": "farmer",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Farmer",
    "options": "Farmer",
    "reqd": 1
@@ -312,8 +311,9 @@
   },
   {
    "fieldname": "crop_type",
-   "fieldtype": "Data",
-   "label": "Crop Type"
+   "fieldtype": "Link",
+   "label": "Crop Type",
+   "options": "Crop"
   },
   {
    "fieldname": "vegetables_name",
@@ -368,7 +368,6 @@
    "label": "Organization"
   },
   {
-   "collapsible": 1,
    "fieldname": "section_organization",
    "fieldtype": "Section Break",
    "label": "Organization Information"
@@ -440,12 +439,28 @@
    "fieldname": "revision_no",
    "fieldtype": "Int",
    "label": "Revision No"
+  },
+  {
+   "fieldname": "column_break_snxf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_chla",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_gjia",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_tpzc",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-05 23:59:00.000000",
+ "modified": "2026-01-07 22:09:31.547815",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm",
@@ -470,4 +485,3 @@
  "sort_order": "DESC",
  "states": []
 }
-

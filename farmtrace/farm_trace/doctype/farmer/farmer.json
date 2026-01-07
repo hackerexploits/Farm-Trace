@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2026-01-05 23:58:00.000000",
+ "creation": "2026-01-05 23:58:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -21,10 +21,11 @@
   "education",
   "father_husband_name",
   "section_address",
-  "address",
+  "farmer_group",
   "village",
   "district",
   "state",
+  "address",
   "country",
   "column_break_address_1",
   "pin_code",
@@ -120,20 +121,22 @@
   "ics_unit_no",
   "section_organization",
   "samithi_id",
-  "farmer_group",
   "sangham",
   "position_group",
+  "column_break_hveo",
   "fpo",
   "category",
   "branch_id",
   "section_enrollment",
   "enrollment_date",
   "enroll_place",
+  "column_break_vezk",
   "enroll_place_other",
   "section_affiliation",
   "interest_to_join",
   "interest_to_join_racp_and_eudr",
   "farmer_affiliation",
+  "column_break_qkaw",
   "farmer_affiliation_other",
   "tab_financial_additional",
   "section_insurance",
@@ -164,6 +167,7 @@
   "status",
   "status_code",
   "status_msg",
+  "column_break_dcts",
   "is_verified",
   "verified_date",
   "veriied_agent_id",
@@ -172,27 +176,31 @@
   "is_beneficiary_in_gov_scheme",
   "name_of_scheme",
   "investigator_name",
+  "column_break_smtr",
   "investigator_date",
   "investigator_opinion",
   "section_image",
   "image_info_id",
   "photo_capturing_time",
+  "column_break_poel",
   "contract_image",
   "section_crop",
   "current_agri_crop",
   "current_agri_crop_other",
   "vine_interest_to_grow",
+  "column_break_xanz",
   "vanilla_crop_stage",
   "no_of_healthy_vines",
   "section_other",
   "revision_no",
   "trace_id",
-  "customer_project_id",
   "farmer_economy_id",
+  "customer_project_id",
   "inspection_type",
   "personal_status",
   "grs_member",
   "paid_share_capital",
+  "column_break_kxpg",
   "utz_status",
   "basic_info",
   "is_vendor",
@@ -205,6 +213,7 @@
   "created_username",
   "created_date",
   "updated_username",
+  "column_break_lbqu",
   "updated_date",
   "season_code"
  ],
@@ -215,7 +224,6 @@
    "label": "Personal Information"
   },
   {
-   "collapsible": 1,
    "fieldname": "section_basic_info",
    "fieldtype": "Section Break",
    "label": "Basic Information"
@@ -228,11 +236,15 @@
   {
    "fieldname": "farmer_code",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Farmer Code"
   },
   {
    "fieldname": "first_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "First Name"
   },
   {
@@ -252,6 +264,8 @@
   {
    "fieldname": "gender",
    "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Gender",
    "options": "\nMale\nFemale\nOther"
   },
@@ -298,6 +312,7 @@
    "label": "Address"
   },
   {
+   "fetch_from": "farmer_group.village",
    "fieldname": "village",
    "fieldtype": "Link",
    "label": "Village",
@@ -907,6 +922,7 @@
    "label": "Status Message"
   },
   {
+   "default": "0",
    "fieldname": "is_verified",
    "fieldtype": "Check",
    "label": "Is Verified"
@@ -1143,8 +1159,8 @@
   },
   {
    "default": "0",
-   "fieldtype": "Int",
    "fieldname": "is_contract",
+   "fieldtype": "Int",
    "label": "Is Contract"
   },
   {
@@ -1268,12 +1284,48 @@
    "fieldname": "season_code",
    "fieldtype": "Data",
    "label": "Season Code"
+  },
+  {
+   "fieldname": "column_break_hveo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_vezk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qkaw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_dcts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_smtr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_poel",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_xanz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_kxpg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_lbqu",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-05 23:58:00.000000",
+ "modified": "2026-01-07 21:31:01.046707",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",
@@ -1298,4 +1350,3 @@
  "sort_order": "DESC",
  "states": []
 }
-

@@ -1,35 +1,30 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:state",
- "creation": "2026-01-05 23:50:37.506475",
+ "autoname": "field:crop_name",
+ "creation": "2026-01-07 21:33:20.154501",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "state",
-  "country"
+  "crop_name"
  ],
  "fields": [
   {
-   "fieldname": "state",
+   "fieldname": "crop_name",
    "fieldtype": "Data",
-   "label": "State",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Crop name",
    "unique": 1
-  },
-  {
-   "fieldname": "country",
-   "fieldtype": "Link",
-   "label": "Country",
-   "options": "Country"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-07 21:19:50.228112",
+ "modified": "2026-01-07 21:33:53.669222",
  "modified_by": "Administrator",
  "module": "Farm Trace",
- "name": "State",
+ "name": "Crop",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
