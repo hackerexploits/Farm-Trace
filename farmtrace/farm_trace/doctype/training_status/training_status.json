@@ -1,0 +1,245 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-08 22:35:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tab_basic_info",
+  "section_training_details",
+  "training_code",
+  "training_date",
+  "farmer_training",
+  "receipt_no",
+  "column_break_training_1",
+  "season_id",
+  "branch_id",
+  "time_taken_for_training",
+  "section_farmer_info",
+  "farmer_id",
+  "farmer_attended",
+  "column_break_farmer_1",
+  "farmer_champion",
+  "section_location",
+  "village",
+  "village_location",
+  "column_break_location_1",
+  "warehouse",
+  "section_trainer_info",
+  "name_of_trainer",
+  "training_assistant_name",
+  "column_break_trainer_1",
+  "agronomist",
+  "tab_additional",
+  "section_additional",
+  "transfer_info_id",
+  "remarks",
+  "section_photos",
+  "photos"
+ ],
+ "fields": [
+  {
+   "fieldname": "tab_basic_info",
+   "fieldtype": "Tab Break",
+   "label": "Basic Information"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_training_details",
+   "fieldtype": "Section Break",
+   "label": "Training Details"
+  },
+  {
+   "fieldname": "training_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Training Code"
+  },
+  {
+   "fieldname": "training_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Training Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "farmer_training",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Farmer Training",
+   "options": "Farmer Training"
+  },
+  {
+   "fieldname": "receipt_no",
+   "fieldtype": "Data",
+   "label": "Receipt No"
+  },
+  {
+   "fieldname": "column_break_training_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "season_id",
+   "fieldtype": "Link",
+   "label": "Season",
+   "options": "Season Master"
+  },
+  {
+   "fieldname": "branch_id",
+   "fieldtype": "Link",
+   "label": "Branch ID",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "time_taken_for_training",
+   "fieldtype": "Data",
+   "label": "Time Taken for Training"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_farmer_info",
+   "fieldtype": "Section Break",
+   "label": "Farmer Information"
+  },
+  {
+   "fieldname": "farmer_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Farmer",
+   "options": "Farmer",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "farmer_attended",
+   "fieldtype": "Int",
+   "label": "Farmer Attended"
+  },
+  {
+   "fieldname": "column_break_farmer_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "farmer_champion",
+   "fieldtype": "Int",
+   "label": "Farmer Champion"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_location",
+   "fieldtype": "Section Break",
+   "label": "Location Information"
+  },
+  {
+   "fieldname": "village",
+   "fieldtype": "Link",
+   "label": "Village",
+   "options": "Village"
+  },
+  {
+   "fieldname": "village_location",
+   "fieldtype": "Data",
+   "label": "Village Location"
+  },
+  {
+   "fieldname": "column_break_location_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_trainer_info",
+   "fieldtype": "Section Break",
+   "label": "Trainer Information"
+  },
+  {
+   "fieldname": "name_of_trainer",
+   "fieldtype": "Data",
+   "label": "Name of Trainer"
+  },
+  {
+   "fieldname": "training_assistant_name",
+   "fieldtype": "Data",
+   "label": "Training Assistant Name"
+  },
+  {
+   "fieldname": "column_break_trainer_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "agronomist",
+   "fieldtype": "Int",
+   "label": "Agronomist"
+  },
+  {
+   "fieldname": "tab_additional",
+   "fieldtype": "Tab Break",
+   "label": "Additional Information"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_additional",
+   "fieldtype": "Section Break",
+   "label": "Additional Details"
+  },
+  {
+   "fieldname": "transfer_info_id",
+   "fieldtype": "Int",
+   "label": "Transfer Info ID"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_photos",
+   "fieldtype": "Section Break",
+   "label": "Photos"
+  },
+  {
+   "fieldname": "photos",
+   "fieldtype": "Table",
+   "label": "Photos",
+   "options": "Training Status Photo"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-08 22:35:00",
+ "modified_by": "Administrator",
+ "module": "Farm Trace",
+ "name": "Training Status",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
+

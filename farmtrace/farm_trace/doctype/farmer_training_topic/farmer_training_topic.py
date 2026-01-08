@@ -5,7 +5,6 @@
 from frappe.model.document import Document
 
 
-class FarmerGroup(Document):
+class FarmerTrainingTopic(Document):
 	pass
-
 

@@ -1,66 +1,59 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{village}-{district}",
- "creation": "2026-01-05 23:56:00",
+ "creation": "2026-01-08 22:31:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "village",
-  "district",
-  "column_break_ubbt",
-  "state",
-  "country"
+  "name",
+  "code",
+  "column_break_1",
+  "branch_id",
+  "revision_no"
  ],
  "fields": [
   {
-   "fieldname": "village",
+   "fieldname": "name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Village",
+   "label": "Name",
    "reqd": 1
   },
   {
-   "fieldname": "district",
-   "fieldtype": "Link",
+   "fieldname": "code",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "District",
-   "options": "District",
-   "reqd": 1
+   "label": "Code",
+   "reqd": 1,
+   "unique": 1
   },
   {
-   "fetch_from": "district.state",
-   "fieldname": "state",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "State",
-   "options": "State",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "district.country",
-   "fieldname": "country",
-   "fieldtype": "Link",
-   "label": "Country",
-   "options": "Country",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_ubbt",
+   "fieldname": "column_break_1",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "branch_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Branch ID",
+   "options": "Branch"
+  },
+  {
+   "default": "1",
+   "fieldname": "revision_no",
+   "fieldtype": "Int",
+   "label": "Revision No"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-07 21:22:53.965037",
+ "modified": "2026-01-08 22:31:00",
  "modified_by": "Administrator",
  "module": "Farm Trace",
- "name": "Village",
- "naming_rule": "Expression",
+ "name": "Farmer Training Method",
  "owner": "Administrator",
  "permissions": [
   {
@@ -82,3 +75,4 @@
  "sort_order": "DESC",
  "states": []
 }
+

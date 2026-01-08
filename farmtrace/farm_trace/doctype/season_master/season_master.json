@@ -1,49 +1,57 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:district",
- "creation": "2026-01-05 23:55:00",
+ "creation": "2026-01-08 22:36:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "district",
-  "state",
-  "country"
+  "code",
+  "name",
+  "column_break_1",
+  "year",
+  "revision_no"
  ],
  "fields": [
   {
-   "fieldname": "district",
+   "fieldname": "code",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "District",
+   "in_standard_filter": 1,
+   "label": "Code",
    "reqd": 1,
    "unique": 1
   },
   {
-   "fieldname": "state",
-   "fieldtype": "Link",
+   "fieldname": "name",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "State",
-   "options": "State",
+   "in_standard_filter": 1,
+   "label": "Name",
    "reqd": 1
   },
   {
-   "fetch_from": "state.country",
-   "fieldname": "country",
-   "fieldtype": "Link",
-   "label": "Country",
-   "options": "Country",
-   "read_only": 1
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Data",
+   "label": "Year"
+  },
+  {
+   "default": "1",
+   "fieldname": "revision_no",
+   "fieldtype": "Int",
+   "label": "Revision No"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-07 21:20:47.437043",
+ "modified": "2026-01-08 22:36:00",
  "modified_by": "Administrator",
  "module": "Farm Trace",
- "name": "District",
- "naming_rule": "By fieldname",
+ "name": "Season Master",
  "owner": "Administrator",
  "permissions": [
   {
@@ -65,3 +73,4 @@
  "sort_order": "DESC",
  "states": []
 }
+
