@@ -1,0 +1,238 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-10 19:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tab_basic_info",
+  "section_agent_details",
+  "agent_code",
+  "agent_id",
+  "agent_type",
+  "mode",
+  "column_break_agent_1",
+  "bod_status",
+  "is_training_available",
+  "section_password",
+  "password",
+  "password_upt",
+  "tab_sequence_numbers",
+  "section_farmer_sequences",
+  "farmer_current_id_seq",
+  "farmer_alloted_id_seq",
+  "farmer_alloted_res_id_seq",
+  "column_break_farmer_seq_1",
+  "farmer_card_id_seq",
+  "farmer_account_no_seq",
+  "section_shop_dealer_sequences",
+  "shop_dealer_current_id_seq",
+  "shop_dealer_alloted_id_seq",
+  "shop_dealer_alloted_res_id_seq",
+  "column_break_shop_seq_1",
+  "shop_dealer_card_id_seq",
+  "section_other_sequences",
+  "internal_id_seq",
+  "receipt_number",
+  "order_no_seq",
+  "column_break_other_seq_1",
+  "delivery_no_seq"
+ ],
+ "fields": [
+  {
+   "fieldname": "tab_basic_info",
+   "fieldtype": "Tab Break",
+   "label": "Basic Information"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_agent_details",
+   "fieldtype": "Section Break",
+   "label": "Agent Details"
+  },
+  {
+   "fieldname": "agent_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Agent Code"
+  },
+  {
+   "fieldname": "agent_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Agent ID"
+  },
+  {
+   "fieldname": "agent_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Agent Type",
+   "options": "Agent Type"
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Int",
+   "label": "Mode"
+  },
+  {
+   "fieldname": "column_break_agent_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bod_status",
+   "fieldtype": "Int",
+   "label": "BOD Status"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_training_available",
+   "fieldtype": "Check",
+   "label": "Is Training Available"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_password",
+   "fieldtype": "Section Break",
+   "label": "Password Information"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "password_upt",
+   "fieldtype": "Datetime",
+   "label": "Password Updated"
+  },
+  {
+   "fieldname": "tab_sequence_numbers",
+   "fieldtype": "Tab Break",
+   "label": "Sequence Numbers"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_farmer_sequences",
+   "fieldtype": "Section Break",
+   "label": "Farmer Sequences"
+  },
+  {
+   "fieldname": "farmer_current_id_seq",
+   "fieldtype": "Data",
+   "label": "Farmer Current ID Sequence"
+  },
+  {
+   "fieldname": "farmer_alloted_id_seq",
+   "fieldtype": "Data",
+   "label": "Farmer Alloted ID Sequence"
+  },
+  {
+   "fieldname": "farmer_alloted_res_id_seq",
+   "fieldtype": "Data",
+   "label": "Farmer Alloted Reserved ID Sequence"
+  },
+  {
+   "fieldname": "column_break_farmer_seq_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "farmer_card_id_seq",
+   "fieldtype": "Data",
+   "label": "Farmer Card ID Sequence"
+  },
+  {
+   "fieldname": "farmer_account_no_seq",
+   "fieldtype": "Data",
+   "label": "Farmer Account No Sequence"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_shop_dealer_sequences",
+   "fieldtype": "Section Break",
+   "label": "Shop Dealer Sequences"
+  },
+  {
+   "fieldname": "shop_dealer_current_id_seq",
+   "fieldtype": "Data",
+   "label": "Shop Dealer Current ID Sequence"
+  },
+  {
+   "fieldname": "shop_dealer_alloted_id_seq",
+   "fieldtype": "Data",
+   "label": "Shop Dealer Alloted ID Sequence"
+  },
+  {
+   "fieldname": "shop_dealer_alloted_res_id_seq",
+   "fieldtype": "Data",
+   "label": "Shop Dealer Alloted Reserved ID Sequence"
+  },
+  {
+   "fieldname": "column_break_shop_seq_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shop_dealer_card_id_seq",
+   "fieldtype": "Data",
+   "label": "Shop Dealer Card ID Sequence"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_other_sequences",
+   "fieldtype": "Section Break",
+   "label": "Other Sequences"
+  },
+  {
+   "fieldname": "internal_id_seq",
+   "fieldtype": "Data",
+   "label": "Internal ID Sequence"
+  },
+  {
+   "fieldname": "receipt_number",
+   "fieldtype": "Data",
+   "label": "Receipt Number"
+  },
+  {
+   "fieldname": "order_no_seq",
+   "fieldtype": "Data",
+   "label": "Order No Sequence"
+  },
+  {
+   "fieldname": "column_break_other_seq_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "delivery_no_seq",
+   "fieldtype": "Data",
+   "label": "Delivery No Sequence"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-10 19:00:00",
+ "modified_by": "Administrator",
+ "module": "Farm Trace",
+ "name": "Agent",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

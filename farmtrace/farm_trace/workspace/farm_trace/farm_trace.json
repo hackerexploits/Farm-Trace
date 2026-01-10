@@ -1,0 +1,227 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"qaAVw35Hci\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Farm Trace</span>\",\"col\":12}},{\"id\":\"qT5lKwdvfg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farm\",\"col\":3}},{\"id\":\"NzXjg8kxIk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farmer\",\"col\":3}},{\"id\":\"6uxT_WLeBF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farmer Group\",\"col\":3}},{\"id\":\"McBRDCy0ol\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"3VhSn7nkWM\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}},{\"id\":\"oUdLTP937l\",\"type\":\"card\",\"data\":{\"card_name\":\"Master Doctype\",\"col\":4}},{\"id\":\"b21s4sD7uo\",\"type\":\"card\",\"data\":{\"card_name\":\"Trainings\",\"col\":4}},{\"id\":\"jp4pnMRlG8\",\"type\":\"card\",\"data\":{\"card_name\":\"Geographical\",\"col\":4}},{\"id\":\"UmuJXz6loX\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}}]",
+ "creation": "2026-01-10 22:53:37.378829",
+ "custom_blocks": [
+  {
+   "custom_block_name": "separator",
+   "label": "separator"
+  }
+ ],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "table",
+ "idx": 0,
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "label": "Farm Trace",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Master Doctype",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Farm",
+   "link_count": 0,
+   "link_to": "Farm",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Farmer",
+   "link_count": 0,
+   "link_to": "Farmer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Farmer Group",
+   "link_count": 0,
+   "link_to": "Farmer Group",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trainings",
+   "link_count": 5,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Farmer Training",
+   "link_count": 0,
+   "link_to": "Farmer Training",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Farmer Training Method",
+   "link_count": 0,
+   "link_to": "Farmer Training Method",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Farmer Training Status",
+   "link_count": 0,
+   "link_to": "Farmer Training Status",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Farmer Training Topic",
+   "link_count": 0,
+   "link_to": "Farmer Training Topic",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Topic Category",
+   "link_count": 0,
+   "link_to": "Topic Category",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Geographical",
+   "link_count": 6,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Farmer Group",
+   "link_count": 0,
+   "link_to": "Farmer Group",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Village",
+   "link_count": 0,
+   "link_to": "Village",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Ward",
+   "link_count": 0,
+   "link_to": "Ward",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "District",
+   "link_count": 0,
+   "link_to": "District",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "State",
+   "link_count": 0,
+   "link_to": "State",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Country",
+   "link_count": 0,
+   "link_to": "Country",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-01-10 23:20:39.371210",
+ "modified_by": "Administrator",
+ "module": "Farm Trace",
+ "name": "Farm Trace",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 28.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Farm",
+   "link_to": "Farm",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Farmer",
+   "link_to": "Farmer",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Farmer Group",
+   "link_to": "Farmer Group",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Farm Trace"
+}

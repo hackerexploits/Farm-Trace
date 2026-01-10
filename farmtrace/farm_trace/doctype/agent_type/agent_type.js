@@ -1,10 +1,8 @@
 // Copyright (c) 2026, Mania and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Season Master", {
+// frappe.ui.form.on("Agent Type", {
 // 	refresh(frm) {
 
 // 	},
 // });
-
-

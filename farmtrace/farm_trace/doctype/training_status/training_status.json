@@ -85,7 +85,7 @@
    "fieldname": "season_id",
    "fieldtype": "Link",
    "label": "Season",
-   "options": "Season Master"
+   "options": "Farmer Season"
   },
   {
    "fieldname": "branch_id",
@@ -218,7 +218,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-10 18:55:51.649570",
+ "modified": "2026-01-10 19:52:30.469055",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Training Status",

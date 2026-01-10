@@ -1056,7 +1056,7 @@
   },
   {
    "fieldname": "contract_image",
-   "fieldtype": "Text",
+   "fieldtype": "Attach Image",
    "label": "Contract Image"
   },
   {

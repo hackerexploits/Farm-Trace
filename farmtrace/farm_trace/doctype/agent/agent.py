@@ -5,7 +5,5 @@
 from frappe.model.document import Document
 
 
-class SeasonMaster(Document):
+class Agent(Document):
 	pass
-
-
