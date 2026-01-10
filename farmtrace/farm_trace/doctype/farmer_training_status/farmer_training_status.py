@@ -8,3 +8,4 @@ from frappe.model.document import Document
 class FarmerTrainingStatus(Document):
 	pass
 
+

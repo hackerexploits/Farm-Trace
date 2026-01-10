@@ -5,7 +5,5 @@
 from frappe.model.document import Document
 
 
-class TrainingStatus(Document):
+class Ward(Document):
 	pass
-
-

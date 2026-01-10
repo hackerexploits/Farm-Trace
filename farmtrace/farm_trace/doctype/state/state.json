@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:state",
  "creation": "2026-01-05 23:50:37.506475",
@@ -26,7 +27,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-07 21:19:50.228112",
+ "modified": "2026-01-10 18:55:51.432114",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "State",

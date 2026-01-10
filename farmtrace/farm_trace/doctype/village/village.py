@@ -9,3 +9,4 @@ class Village(Document):
 	pass
 
 
+

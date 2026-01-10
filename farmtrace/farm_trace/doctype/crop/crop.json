@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:crop_name",
  "creation": "2026-01-07 21:33:20.154501",
@@ -21,7 +22,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-07 21:33:53.669222",
+ "modified": "2026-01-10 18:55:52.665177",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Crop",

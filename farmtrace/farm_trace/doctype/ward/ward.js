@@ -1,21 +1,18 @@
 // Copyright (c) 2026, Mania and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("Village", {
+frappe.ui.form.on("Ward", {
 	refresh(frm) {
-		// Auto-fetch district, state, and country when ward is selected
-		if (frm.doc.ward) {
-			frm.trigger("ward");
+		// Auto-fetch state and country when district is selected
+		if (frm.doc.district) {
+			frm.trigger("district");
 		}
 	},
 	
-	ward(frm) {
-		if (frm.doc.ward) {
-			frappe.db.get_doc("Ward", frm.doc.ward)
+	district(frm) {
+		if (frm.doc.district) {
+			frappe.db.get_doc("District", frm.doc.district)
 				.then(doc => {
-					if (doc.district) {
-						frm.set_value("district", doc.district);
-					}
 					if (doc.state) {
 						frm.set_value("state", doc.state);
 					}
@@ -24,7 +21,6 @@ frappe.ui.form.on("Village", {
 					}
 				});
 		} else {
-			frm.set_value("district", "");
 			frm.set_value("state", "");
 			frm.set_value("country", "");
 		}

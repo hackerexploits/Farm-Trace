@@ -1,59 +1,62 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2026-01-08 22:33:00",
+ "creation": "2026-01-08 22:40:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "name",
-  "code",
-  "column_break_1",
-  "branch_id",
-  "revision_no"
+  "ward",
+  "district",
+  "column_break_fzec",
+  "state",
+  "country"
  ],
  "fields": [
   {
-   "fieldname": "name",
+   "fieldname": "ward",
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Name",
+   "label": "Ward",
    "reqd": 1
   },
   {
-   "fieldname": "code",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Code",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "fieldname": "column_break_1",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "branch_id",
+   "fieldname": "district",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Branch ID",
-   "options": "Branch"
+   "in_standard_filter": 1,
+   "label": "District",
+   "options": "District",
+   "reqd": 1
   },
   {
-   "default": "1",
-   "fieldname": "revision_no",
-   "fieldtype": "Int",
-   "label": "Revision No"
+   "fetch_from": "district.state",
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "State",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "district.country",
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_fzec",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-08 22:33:00",
+ "modified": "2026-01-10 18:58:07.588565",
  "modified_by": "Administrator",
  "module": "Farm Trace",
- "name": "Farmer Training",
+ "name": "Ward",
  "owner": "Administrator",
  "permissions": [
   {
@@ -75,5 +78,3 @@
  "sort_order": "DESC",
  "states": []
 }
-
-

@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "creation": "2026-01-05 23:58:00",
  "doctype": "DocType",
@@ -1325,7 +1326,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-07 21:31:01.046707",
+ "modified": "2026-01-10 18:55:53.193329",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",

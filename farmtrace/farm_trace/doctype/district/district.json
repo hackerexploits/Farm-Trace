@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:district",
  "creation": "2026-01-05 23:55:00",
@@ -39,7 +40,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-07 21:20:47.437043",
+ "modified": "2026-01-10 18:55:52.277043",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "District",
