@@ -1,0 +1,139 @@
+{
+ "actions": [],
+ "creation": "2026-02-05 12:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_api",
+  "api_url",
+  "api_token",
+  "column_break_api",
+  "enable_sync",
+  "sync_interval_minutes",
+  "section_forms",
+  "farmer_form_asset_uid",
+  "farmer_match_field",
+  "column_break_forms",
+  "farm_form_asset_uid",
+  "farm_match_field",
+  "section_farmer_mapping",
+  "farmer_field_mappings",
+  "section_farm_mapping",
+  "farm_field_mappings"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_api",
+   "fieldtype": "Section Break",
+   "label": "API Configuration"
+  },
+  {
+   "default": "https://kf.kobotoolbox.org",
+   "fieldname": "api_url",
+   "fieldtype": "Data",
+   "label": "API URL",
+   "description": "e.g. https://kf.kobotoolbox.org or https://eu.kobotoolbox.org"
+  },
+  {
+   "fieldname": "api_token",
+   "fieldtype": "Password",
+   "label": "API Token",
+   "description": "From Kobo Account Settings > Security"
+  },
+  {
+   "fieldname": "column_break_api",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_sync",
+   "fieldtype": "Check",
+   "label": "Enable Sync"
+  },
+  {
+   "default": "15",
+   "fieldname": "sync_interval_minutes",
+   "fieldtype": "Int",
+   "label": "Sync Interval (minutes)",
+   "description": "Auto-sync runs every N minutes"
+  },
+  {
+   "fieldname": "section_forms",
+   "fieldtype": "Section Break",
+   "label": "Kobo Form Configuration"
+  },
+  {
+   "fieldname": "farmer_form_asset_uid",
+   "fieldtype": "Data",
+   "label": "Farmer Form Asset UID",
+   "description": "From Kobo form URL: .../forms/{asset_uid}/"
+  },
+  {
+   "fieldname": "farmer_match_field",
+   "fieldtype": "Select",
+   "label": "Farmer Match Field",
+   "options": "farmer_id\nfarmer_code",
+   "description": "Kobo field used to match existing farmers"
+  },
+  {
+   "fieldname": "column_break_forms",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "farm_form_asset_uid",
+   "fieldtype": "Data",
+   "label": "Farm Form Asset UID",
+   "description": "From Kobo form URL: .../forms/{asset_uid}/"
+  },
+  {
+   "fieldname": "farm_match_field",
+   "fieldtype": "Select",
+   "label": "Farm Match Field",
+   "options": "farm_id\nfarm_name",
+   "description": "Kobo field used to match existing farms"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_farmer_mapping",
+   "fieldtype": "Section Break",
+   "label": "Farmer Field Mappings"
+  },
+  {
+   "fieldname": "farmer_field_mappings",
+   "fieldtype": "Table",
+   "label": "Farmer Field Mappings",
+   "options": "Kobo Farmer Field Mapping"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_farm_mapping",
+   "fieldtype": "Section Break",
+   "label": "Farm Field Mappings"
+  },
+  {
+   "fieldname": "farm_field_mappings",
+   "fieldtype": "Table",
+   "label": "Farm Field Mappings",
+   "options": "Kobo Farm Field Mapping"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-02-05 12:00:00",
+ "modified_by": "Administrator",
+ "module": "Farm Trace",
+ "name": "Kobo Toolbox Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

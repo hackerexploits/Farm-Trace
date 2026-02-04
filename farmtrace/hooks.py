@@ -83,7 +83,7 @@ app_license = "agpl-3.0"
 # ------------
 
 # before_install = "farmtrace.install.before_install"
-# after_install = "farmtrace.install.after_install"
+after_install = "farmtrace.install.after_install"
 
 # Uninstallation
 # ------------
@@ -147,6 +147,14 @@ app_license = "agpl-3.0"
 
 # Scheduled Tasks
 # ---------------
+# Kobo sync runs every 15 minutes
+# scheduler_events = {
+# 	"cron": {
+# 		"*/15 * * * *": [
+# 			"farmtrace.farm_trace.api.kobo_sync.run_scheduled_kobo_sync",
+# 		],
+# 	},
+# }
 
 # scheduler_events = {
 # 	"all": [

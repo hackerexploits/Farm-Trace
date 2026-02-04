@@ -2,6 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
+ "autoname": "field:farm_id",
  "creation": "2026-01-05 23:59:00",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -11,6 +12,7 @@
   "farm_id",
   "farm_name",
   "farmer",
+  "full_name",
   "column_break_farm_details_1",
   "village",
   "district",
@@ -92,12 +94,14 @@
   {
    "fieldname": "farm_id",
    "fieldtype": "Data",
-   "label": "Farm ID"
+   "label": "Farm ID",
+   "unique": 1
   },
   {
    "fieldname": "farm_name",
    "fieldtype": "Data",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Farm Name",
    "reqd": 1
   },
@@ -105,6 +109,7 @@
    "fieldname": "farmer",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Farmer",
    "options": "Farmer",
    "reqd": 1
@@ -151,7 +156,7 @@
   },
   {
    "fieldname": "hectares",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "label": "Hectares"
   },
   {
@@ -213,8 +218,9 @@
   {
    "default": "0",
    "fieldname": "ra_farm_status",
-   "fieldtype": "Int",
-   "label": "RA Farm Status"
+   "fieldtype": "Link",
+   "label": "Certification",
+   "options": "Main Certification"
   },
   {
    "default": "0",
@@ -456,15 +462,22 @@
   {
    "fieldname": "column_break_tpzc",
    "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "farmer.full_name",
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Farmers Full Name"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-10 18:55:53.681951",
+ "modified": "2026-02-04 00:22:24.689594",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
