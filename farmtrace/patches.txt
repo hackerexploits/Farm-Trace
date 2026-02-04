@@ -3,5 +3,3 @@
 # Read docs to understand patches: https://frappeframework.com/docs/v14/user/en/database-migrations
 
 [post_model_sync]
-farmtrace.patches.create_farms_map_block
-farmtrace.patches.update_farms_map_height
