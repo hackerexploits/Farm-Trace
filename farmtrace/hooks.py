@@ -21,6 +21,7 @@ app_license = "agpl-3.0"
 # 	}
 # ]
 
+
 # Includes in <head>
 # ------------------
 
@@ -82,8 +83,8 @@ app_license = "agpl-3.0"
 # Installation
 # ------------
 
-# before_install = "farmtrace.install.before_install"
-# after_install = "farmtrace.install.after_install"
+# Fixtures (Custom HTML Block "Farms Map" created during migrate)
+fixtures = [{"dt": "Custom HTML Block", "filters": [["name", "=", "Farms Map"]]}]
 
 # Uninstallation
 # ------------
@@ -147,6 +148,14 @@ app_license = "agpl-3.0"
 
 # Scheduled Tasks
 # ---------------
+# Kobo sync runs every 15 minutes
+# scheduler_events = {
+# 	"cron": {
+# 		"*/15 * * * *": [
+# 			"farmtrace.farm_trace.api.kobo_sync.run_scheduled_kobo_sync",
+# 		],
+# 	},
+# }
 
 # scheduler_events = {
 # 	"all": [

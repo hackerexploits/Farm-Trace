@@ -11,8 +11,10 @@
   "farmer_id",
   "farmer_code",
   "first_name",
+  "middle_name",
   "last_name",
-  "sur_name",
+  "full_name",
+  "active",
   "column_break_basic_1",
   "gender",
   "dob",
@@ -51,15 +53,8 @@
   "section_social",
   "social_category",
   "caste_name",
+  "column_break_oxlk",
   "religion",
-  "religion_other",
-  "section_actual_info",
-  "actual_first_name",
-  "actual_last_name",
-  "is_same_as_farmer",
-  "actual_gender",
-  "actual_dob",
-  "actual_age",
   "tab_family_household",
   "section_family",
   "no_of_family_members",
@@ -191,32 +186,7 @@
   "vine_interest_to_grow",
   "column_break_xanz",
   "vanilla_crop_stage",
-  "no_of_healthy_vines",
-  "section_other",
-  "revision_no",
-  "trace_id",
-  "farmer_economy_id",
-  "customer_project_id",
-  "inspection_type",
-  "personal_status",
-  "grs_member",
-  "paid_share_capital",
-  "column_break_kxpg",
-  "utz_status",
-  "basic_info",
-  "is_vendor",
-  "is_contract",
-  "sensitization_status",
-  "due_diligence_status",
-  "master_status",
-  "recommended_for_farmer",
-  "section_system",
-  "created_username",
-  "created_date",
-  "updated_username",
-  "column_break_lbqu",
-  "updated_date",
-  "season_code"
+  "no_of_healthy_vines"
  ],
  "fields": [
   {
@@ -254,9 +224,10 @@
    "label": "Last Name"
   },
   {
-   "fieldname": "sur_name",
+   "fieldname": "full_name",
    "fieldtype": "Data",
-   "label": "Sur Name"
+   "label": "Full Name",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_basic_1",
@@ -403,172 +374,6 @@
    "label": "Email"
   },
   {
-   "fieldname": "tab_family_household",
-   "fieldtype": "Tab Break",
-   "label": "Family & Household"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "section_family",
-   "fieldtype": "Section Break",
-   "label": "Family Information"
-  },
-  {
-   "fieldname": "no_of_family_members",
-   "fieldtype": "Int",
-   "label": "No. of Family Members"
-  },
-  {
-   "fieldname": "no_of_household_members",
-   "fieldtype": "Data",
-   "label": "No. of Household Members"
-  },
-  {
-   "default": "0",
-   "fieldname": "head_of_family",
-   "fieldtype": "Check",
-   "label": "Head of Family"
-  },
-  {
-   "fieldname": "type_of_family",
-   "fieldtype": "Data",
-   "label": "Type of Family"
-  },
-  {
-   "fieldname": "male_count",
-   "fieldtype": "Data",
-   "label": "Male Count"
-  },
-  {
-   "fieldname": "female_count",
-   "fieldtype": "Data",
-   "label": "Female Count"
-  },
-  {
-   "fieldname": "no_adult_male",
-   "fieldtype": "Data",
-   "label": "No. Adult Male"
-  },
-  {
-   "fieldname": "no_adult_female",
-   "fieldtype": "Data",
-   "label": "No. Adult Female"
-  },
-  {
-   "fieldname": "column_break_family_1",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "no_child_male",
-   "fieldtype": "Data",
-   "label": "No. Child Male"
-  },
-  {
-   "fieldname": "no_child_female",
-   "fieldtype": "Data",
-   "label": "No. Child Female"
-  },
-  {
-   "fieldname": "no_of_school_going_child_male",
-   "fieldtype": "Data",
-   "label": "No. of School Going Child Male"
-  },
-  {
-   "fieldname": "no_of_school_going_child_female",
-   "fieldtype": "Data",
-   "label": "No. of School Going Child Female"
-  },
-  {
-   "fieldname": "child_cnt_on_site",
-   "fieldtype": "Int",
-   "label": "Child Count on Site"
-  },
-  {
-   "fieldname": "child_cnt_on_site_pmry_scl",
-   "fieldtype": "Int",
-   "label": "Child Count on Site Primary School"
-  },
-  {
-   "fieldname": "child_cnt_on_site_sec_scl",
-   "fieldtype": "Int",
-   "label": "Child Count on Site Secondary School"
-  },
-  {
-   "fieldname": "family_member",
-   "fieldtype": "Text",
-   "label": "Family Member"
-  },
-  {
-   "fieldname": "family_member_other",
-   "fieldtype": "Data",
-   "label": "Family Member Other"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "section_economic",
-   "fieldtype": "Section Break",
-   "label": "Economic Information"
-  },
-  {
-   "fieldname": "annual_income",
-   "fieldtype": "Data",
-   "label": "Annual Income"
-  },
-  {
-   "fieldname": "total_source_income",
-   "fieldtype": "Float",
-   "label": "Total Source Income"
-  },
-  {
-   "fieldname": "house_hold_lh_dry",
-   "fieldtype": "Data",
-   "label": "Household LH Dry"
-  },
-  {
-   "fieldname": "house_hold_lh_wet",
-   "fieldtype": "Data",
-   "label": "Household LH Wet"
-  },
-  {
-   "fieldname": "house_occupation_primary",
-   "fieldtype": "Data",
-   "label": "House Occupation Primary"
-  },
-  {
-   "fieldname": "column_break_economic_1",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "house_occupation_secondary",
-   "fieldtype": "Data",
-   "label": "House Occupation Secondary"
-  },
-  {
-   "fieldname": "house_occupation_pri_other",
-   "fieldtype": "Data",
-   "label": "House Occupation Primary Other"
-  },
-  {
-   "fieldname": "house_occupation_sec_other",
-   "fieldtype": "Data",
-   "label": "House Occupation Secondary Other"
-  },
-  {
-   "fieldname": "agriculture",
-   "fieldtype": "Data",
-   "label": "Agriculture"
-  },
-  {
-   "fieldname": "other_source",
-   "fieldtype": "Data",
-   "label": "Other Source"
-  },
-  {
-   "fieldname": "total",
-   "fieldtype": "Data",
-   "label": "Total"
-  },
-  {
    "fieldname": "tab_certification_organization",
    "fieldtype": "Tab Break",
    "label": "Certification & Organization"
@@ -612,32 +417,32 @@
   },
   {
    "fieldname": "ics_name",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "ICS Name"
   },
   {
    "fieldname": "ics_code",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "ICS Code"
   },
   {
    "fieldname": "ics_trcaenet_reg_no",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "ICS TRCAENET Reg No"
   },
   {
    "fieldname": "farmer_code_by_ics",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Farmer Code by ICS"
   },
   {
    "fieldname": "framer_code_by_trcaenet",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Farmer Code by TRCAENET"
   },
   {
    "fieldname": "ics_unit_no",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "ICS Unit No"
   },
   {
@@ -653,24 +458,24 @@
   },
   {
    "fieldname": "life_or_health_insurance",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Life or Health Insurance"
   },
   {
    "default": "0",
    "fieldname": "life_insurance",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Life Insurance"
   },
   {
    "default": "0",
    "fieldname": "health_insurance",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Health Insurance"
   },
   {
    "fieldname": "life_ins_amt",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Life Insurance Amount"
   },
   {
@@ -679,22 +484,22 @@
   },
   {
    "fieldname": "health_ins_amt",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Health Insurance Amount"
   },
   {
    "fieldname": "crop_insurance",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Crop Insurance"
   },
   {
    "fieldname": "farmer_crop_insurance",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Farmer Crop Insurance"
   },
   {
    "fieldname": "acres_insured",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Acres Insured"
   },
   {
@@ -711,27 +516,27 @@
   },
   {
    "fieldname": "loan_taken_from",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Taken From"
   },
   {
    "fieldname": "other_loan_taken_from",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Other Loan Taken From"
   },
   {
    "fieldname": "loan_amount",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Amount"
   },
   {
    "fieldname": "loan_purpose",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Purpose"
   },
   {
    "fieldname": "loan_purpose_other",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Purpose Other"
   },
   {
@@ -740,27 +545,27 @@
   },
   {
    "fieldname": "loan_int_rate",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Interest Rate"
   },
   {
    "fieldname": "loan_int_period",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Interest Period"
   },
   {
    "fieldname": "loan_security",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Security"
   },
   {
    "fieldname": "loan_security_other",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Security Other"
   },
   {
    "fieldname": "loan_repayment_amt",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Loan Repayment Amount"
   },
   {
@@ -770,88 +575,23 @@
   },
   {
    "collapsible": 1,
-   "fieldname": "section_household",
-   "fieldtype": "Section Break",
-   "label": "Household Information"
-  },
-  {
-   "fieldname": "consumer_elect",
-   "fieldtype": "Data",
-   "label": "Consumer Electricity"
-  },
-  {
-   "fieldname": "consumer_elect_other",
-   "fieldtype": "Data",
-   "label": "Consumer Electricity Other"
-  },
-  {
-   "fieldname": "vehicle",
-   "fieldtype": "Data",
-   "label": "Vehicle"
-  },
-  {
-   "fieldname": "vehicle_other",
-   "fieldtype": "Data",
-   "label": "Vehicle Other"
-  },
-  {
-   "fieldname": "housing_ownership",
-   "fieldtype": "Data",
-   "label": "Housing Ownership"
-  },
-  {
-   "fieldname": "column_break_household_1",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "housing_ownership_other",
-   "fieldtype": "Data",
-   "label": "Housing Ownership Other"
-  },
-  {
-   "fieldname": "electrified_house",
-   "fieldtype": "Data",
-   "label": "Electrified House"
-  },
-  {
-   "fieldname": "housing_type",
-   "fieldtype": "Data",
-   "label": "Housing Type"
-  },
-  {
-   "fieldname": "housing_type_other",
-   "fieldtype": "Data",
-   "label": "Housing Type Other"
-  },
-  {
-   "fieldname": "drinking_water_source",
-   "fieldtype": "Data",
-   "label": "Drinking Water Source"
-  },
-  {
-   "fieldname": "drinking_water_source_other",
-   "fieldtype": "Data",
-   "label": "Drinking Water Source Other"
-  },
-  {
-   "collapsible": 1,
    "fieldname": "section_identity",
    "fieldtype": "Section Break",
    "label": "Identity Documents"
   },
   {
    "fieldname": "adhaar_no",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Aadhaar No"
   },
   {
    "fieldname": "pan_card",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "PAN Card"
   },
   {
    "fieldname": "id_proof",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "ID Proof"
   },
   {
@@ -860,12 +600,12 @@
   },
   {
    "fieldname": "proof_no",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Proof No"
   },
   {
    "fieldname": "other_id_proof",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Other ID Proof"
   },
   {
@@ -895,9 +635,234 @@
    "label": "Religion"
   },
   {
-   "fieldname": "religion_other",
-   "fieldtype": "Data",
-   "label": "Religion Other"
+   "fieldname": "tab_family_household",
+   "fieldtype": "Tab Break",
+   "label": "Family & Household"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_family",
+   "fieldtype": "Section Break",
+   "label": "Family Information"
+  },
+  {
+   "fieldname": "no_of_family_members",
+   "fieldtype": "Text",
+   "label": "No. of Family Members"
+  },
+  {
+   "fieldname": "no_of_household_members",
+   "fieldtype": "Text",
+   "label": "No. of Household Members"
+  },
+  {
+   "fieldname": "head_of_family",
+   "fieldtype": "Text",
+   "label": "Head of Family"
+  },
+  {
+   "fieldname": "type_of_family",
+   "fieldtype": "Text",
+   "label": "Type of Family"
+  },
+  {
+   "fieldname": "male_count",
+   "fieldtype": "Text",
+   "label": "Male Count"
+  },
+  {
+   "fieldname": "female_count",
+   "fieldtype": "Text",
+   "label": "Female Count"
+  },
+  {
+   "fieldname": "no_adult_male",
+   "fieldtype": "Text",
+   "label": "No. Adult Male"
+  },
+  {
+   "fieldname": "no_adult_female",
+   "fieldtype": "Text",
+   "label": "No. Adult Female"
+  },
+  {
+   "fieldname": "column_break_family_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "no_child_male",
+   "fieldtype": "Text",
+   "label": "No. Child Male"
+  },
+  {
+   "fieldname": "no_child_female",
+   "fieldtype": "Text",
+   "label": "No. Child Female"
+  },
+  {
+   "fieldname": "no_of_school_going_child_male",
+   "fieldtype": "Text",
+   "label": "No. of School Going Child Male"
+  },
+  {
+   "fieldname": "no_of_school_going_child_female",
+   "fieldtype": "Text",
+   "label": "No. of School Going Child Female"
+  },
+  {
+   "fieldname": "child_cnt_on_site",
+   "fieldtype": "Text",
+   "label": "Child Count on Site"
+  },
+  {
+   "fieldname": "child_cnt_on_site_pmry_scl",
+   "fieldtype": "Text",
+   "label": "Child Count on Site Primary School"
+  },
+  {
+   "fieldname": "child_cnt_on_site_sec_scl",
+   "fieldtype": "Text",
+   "label": "Child Count on Site Secondary School"
+  },
+  {
+   "fieldname": "family_member",
+   "fieldtype": "Text",
+   "label": "Family Member"
+  },
+  {
+   "fieldname": "family_member_other",
+   "fieldtype": "Text",
+   "label": "Family Member Other"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_economic",
+   "fieldtype": "Section Break",
+   "label": "Economic Information"
+  },
+  {
+   "fieldname": "annual_income",
+   "fieldtype": "Text",
+   "label": "Annual Income"
+  },
+  {
+   "fieldname": "total_source_income",
+   "fieldtype": "Text",
+   "label": "Total Source Income"
+  },
+  {
+   "fieldname": "house_hold_lh_dry",
+   "fieldtype": "Text",
+   "label": "Household LH Dry"
+  },
+  {
+   "fieldname": "house_hold_lh_wet",
+   "fieldtype": "Text",
+   "label": "Household LH Wet"
+  },
+  {
+   "fieldname": "house_occupation_primary",
+   "fieldtype": "Text",
+   "label": "House Occupation Primary"
+  },
+  {
+   "fieldname": "column_break_economic_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "house_occupation_secondary",
+   "fieldtype": "Text",
+   "label": "House Occupation Secondary"
+  },
+  {
+   "fieldname": "house_occupation_pri_other",
+   "fieldtype": "Text",
+   "label": "House Occupation Primary Other"
+  },
+  {
+   "fieldname": "house_occupation_sec_other",
+   "fieldtype": "Text",
+   "label": "House Occupation Secondary Other"
+  },
+  {
+   "fieldname": "agriculture",
+   "fieldtype": "Text",
+   "label": "Agriculture"
+  },
+  {
+   "fieldname": "other_source",
+   "fieldtype": "Text",
+   "label": "Other Source"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Text",
+   "label": "Total"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_household",
+   "fieldtype": "Section Break",
+   "label": "Household Information"
+  },
+  {
+   "fieldname": "consumer_elect",
+   "fieldtype": "Text",
+   "label": "Consumer Electricity"
+  },
+  {
+   "fieldname": "consumer_elect_other",
+   "fieldtype": "Text",
+   "label": "Consumer Electricity Other"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Text",
+   "label": "Vehicle"
+  },
+  {
+   "fieldname": "vehicle_other",
+   "fieldtype": "Text",
+   "label": "Vehicle Other"
+  },
+  {
+   "fieldname": "housing_ownership",
+   "fieldtype": "Text",
+   "label": "Housing Ownership"
+  },
+  {
+   "fieldname": "column_break_household_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "housing_ownership_other",
+   "fieldtype": "Text",
+   "label": "Housing Ownership Other"
+  },
+  {
+   "fieldname": "electrified_house",
+   "fieldtype": "Text",
+   "label": "Electrified House"
+  },
+  {
+   "fieldname": "housing_type",
+   "fieldtype": "Text",
+   "label": "Housing Type"
+  },
+  {
+   "fieldname": "housing_type_other",
+   "fieldtype": "Text",
+   "label": "Housing Type Other"
+  },
+  {
+   "fieldname": "drinking_water_source",
+   "fieldtype": "Text",
+   "label": "Drinking Water Source"
+  },
+  {
+   "fieldname": "drinking_water_source_other",
+   "fieldtype": "Text",
+   "label": "Drinking Water Source Other"
   },
   {
    "collapsible": 1,
@@ -935,12 +900,12 @@
   },
   {
    "fieldname": "veriied_agent_id",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Verified Agent ID"
   },
   {
    "fieldname": "veriied_agent_name",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Verified Agent Name"
   },
   {
@@ -962,27 +927,27 @@
   },
   {
    "fieldname": "sangham",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Sangham"
   },
   {
    "fieldname": "position_group",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Position Group"
   },
   {
    "fieldname": "fpo",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "FPO"
   },
   {
    "fieldname": "category",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Category"
   },
   {
    "fieldname": "branch_id",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Branch ID"
   },
   {
@@ -999,13 +964,43 @@
   {
    "default": "0",
    "fieldname": "enroll_place",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Enroll Place"
   },
   {
    "fieldname": "enroll_place_other",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Enroll Place Other"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_affiliation",
+   "fieldtype": "Section Break",
+   "label": "Affiliation Information"
+  },
+  {
+   "fieldname": "interest_to_join",
+   "fieldtype": "Text",
+   "label": "Interest to Join"
+  },
+  {
+   "fieldname": "interest_to_join_racp_and_eudr",
+   "fieldtype": "Text",
+   "label": "Interest to Join RACP and EUDR"
+  },
+  {
+   "fieldname": "farmer_affiliation",
+   "fieldtype": "Text",
+   "label": "Farmer Affiliation"
+  },
+  {
+   "fieldname": "column_break_qkaw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "farmer_affiliation_other",
+   "fieldtype": "Text",
+   "label": "Farmer Affiliation Other"
   },
   {
    "collapsible": 1,
@@ -1015,7 +1010,7 @@
   },
   {
    "fieldname": "is_beneficiary_in_gov_scheme",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Is Beneficiary in Gov Scheme"
   },
   {
@@ -1025,7 +1020,7 @@
   },
   {
    "fieldname": "investigator_name",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Investigator Name"
   },
   {
@@ -1067,224 +1062,30 @@
   },
   {
    "fieldname": "current_agri_crop",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Current Agriculture Crop"
   },
   {
    "fieldname": "current_agri_crop_other",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Current Agriculture Crop Other"
   },
   {
    "fieldname": "vine_interest_to_grow",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Vine Interest to Grow"
   },
   {
    "default": "0",
    "fieldname": "vanilla_crop_stage",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Vanilla Crop Stage"
   },
   {
    "default": "0",
    "fieldname": "no_of_healthy_vines",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "No. of Healthy Vines"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "section_other",
-   "fieldtype": "Section Break",
-   "label": "Other Information"
-  },
-  {
-   "fieldname": "revision_no",
-   "fieldtype": "Int",
-   "label": "Revision No"
-  },
-  {
-   "fieldname": "trace_id",
-   "fieldtype": "Data",
-   "label": "Trace ID"
-  },
-  {
-   "fieldname": "customer_project_id",
-   "fieldtype": "Int",
-   "label": "Customer Project ID"
-  },
-  {
-   "fieldname": "farmer_economy_id",
-   "fieldtype": "Int",
-   "label": "Farmer Economy ID"
-  },
-  {
-   "fieldname": "inspection_type",
-   "fieldtype": "Int",
-   "label": "Inspection Type"
-  },
-  {
-   "fieldname": "personal_status",
-   "fieldtype": "Int",
-   "label": "Personal Status"
-  },
-  {
-   "default": "-1",
-   "fieldname": "grs_member",
-   "fieldtype": "Int",
-   "label": "GRS Member"
-  },
-  {
-   "default": "-1",
-   "fieldname": "paid_share_capital",
-   "fieldtype": "Int",
-   "label": "Paid Share Capital"
-  },
-  {
-   "default": "0",
-   "fieldname": "utz_status",
-   "fieldtype": "Check",
-   "label": "UTZ Status"
-  },
-  {
-   "default": "0",
-   "fieldname": "basic_info",
-   "fieldtype": "Check",
-   "label": "Basic Info"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_vendor",
-   "fieldtype": "Int",
-   "label": "Is Vendor"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_contract",
-   "fieldtype": "Int",
-   "label": "Is Contract"
-  },
-  {
-   "default": "0",
-   "fieldname": "sensitization_status",
-   "fieldtype": "Int",
-   "label": "Sensitization Status"
-  },
-  {
-   "default": "0",
-   "fieldname": "due_diligence_status",
-   "fieldtype": "Int",
-   "label": "Due Diligence Status"
-  },
-  {
-   "default": "0",
-   "fieldname": "master_status",
-   "fieldtype": "Int",
-   "label": "Master Status"
-  },
-  {
-   "fieldname": "recommended_for_farmer",
-   "fieldtype": "Int",
-   "label": "Recommended for Farmer"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "section_actual_info",
-   "fieldtype": "Section Break",
-   "label": "Actual Information"
-  },
-  {
-   "fieldname": "actual_first_name",
-   "fieldtype": "Text",
-   "label": "Actual First Name"
-  },
-  {
-   "fieldname": "actual_last_name",
-   "fieldtype": "Text",
-   "label": "Actual Last Name"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_same_as_farmer",
-   "fieldtype": "Check",
-   "label": "Is Same as Farmer"
-  },
-  {
-   "fieldname": "actual_gender",
-   "fieldtype": "Select",
-   "label": "Actual Gender",
-   "options": "\nMale\nFemale\nOther"
-  },
-  {
-   "fieldname": "actual_dob",
-   "fieldtype": "Date",
-   "label": "Actual Date of Birth"
-  },
-  {
-   "fieldname": "actual_age",
-   "fieldtype": "Int",
-   "label": "Actual Age"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "section_affiliation",
-   "fieldtype": "Section Break",
-   "label": "Affiliation Information"
-  },
-  {
-   "fieldname": "interest_to_join",
-   "fieldtype": "Data",
-   "label": "Interest to Join"
-  },
-  {
-   "fieldname": "interest_to_join_racp_and_eudr",
-   "fieldtype": "Data",
-   "label": "Interest to Join RACP and EUDR"
-  },
-  {
-   "fieldname": "farmer_affiliation",
-   "fieldtype": "Text",
-   "label": "Farmer Affiliation"
-  },
-  {
-   "fieldname": "farmer_affiliation_other",
-   "fieldtype": "Text",
-   "label": "Farmer Affiliation Other"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "section_system",
-   "fieldtype": "Section Break",
-   "label": "System Information"
-  },
-  {
-   "fieldname": "created_username",
-   "fieldtype": "Data",
-   "label": "Created Username",
-   "read_only": 1
-  },
-  {
-   "fieldname": "created_date",
-   "fieldtype": "Datetime",
-   "label": "Created Date",
-   "read_only": 1
-  },
-  {
-   "fieldname": "updated_username",
-   "fieldtype": "Data",
-   "label": "Updated Username",
-   "read_only": 1
-  },
-  {
-   "fieldname": "updated_date",
-   "fieldtype": "Datetime",
-   "label": "Updated Date",
-   "read_only": 1
-  },
-  {
-   "fieldname": "season_code",
-   "fieldtype": "Data",
-   "label": "Season Code"
   },
   {
    "fieldname": "column_break_hveo",
@@ -1292,10 +1093,6 @@
   },
   {
    "fieldname": "column_break_vezk",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_qkaw",
    "fieldtype": "Column Break"
   },
   {
@@ -1315,18 +1112,25 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "column_break_kxpg",
+   "fieldname": "middle_name",
+   "fieldtype": "Data",
+   "label": "Middle Name"
+  },
+  {
+   "fieldname": "column_break_oxlk",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "column_break_lbqu",
-   "fieldtype": "Column Break"
+   "default": "0",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-10 18:55:53.193329",
+ "modified": "2026-02-05 01:47:35.490704",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",
