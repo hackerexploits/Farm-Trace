@@ -189,7 +189,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Kobo Integration",
-   "link_count": 2,
+   "link_count": 3,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -200,6 +200,16 @@
    "label": "Kobo Toolbox Settings",
    "link_count": 0,
    "link_to": "Kobo Toolbox Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Kobo Form Configuration",
+   "link_count": 0,
+   "link_to": "Kobo Form Configuration",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"

@@ -1,11 +1,11 @@
 {
- "creation": "2026-02-05 12:00:00",
+ "creation": "2026-02-05 14:00:00",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "kobo_field_name",
-  "farm_field"
+  "target_field"
  ],
  "fields": [
   {
@@ -14,24 +14,24 @@
    "in_list_view": 1,
    "label": "Kobo Field Name",
    "reqd": 1,
-   "description": "Exact field name from Kobo form (e.g. farm_id, farm_name, latitude)"
+   "description": "Exact field name from Kobo form"
   },
   {
-   "fieldname": "farm_field",
+   "fieldname": "target_field",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Farm Field",
+   "label": "Target Field",
    "reqd": 1,
-   "description": "Farm doctype field name (e.g. farm_id, farm_name, latitude)"
+   "description": "Field name in target DocType (e.g. farmer_id, customer, grand_total)"
   }
  ],
  "index_web_pages_for_search": 0,
  "istable": 1,
  "links": [],
- "modified": "2026-02-05 12:00:00",
+ "modified": "2026-02-05 14:00:00",
  "modified_by": "Administrator",
  "module": "Farm Trace",
- "name": "Kobo Farm Field Mapping",
+ "name": "Kobo Field Mapping",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

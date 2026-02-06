@@ -4,7 +4,7 @@
 frappe.ui.form.on("Kobo Toolbox Settings", {
 	refresh: function (frm) {
 		if (frm.doc.enable_sync) {
-			frm.add_custom_button(__("Sync Now"), function () {
+			frm.add_custom_button(__("Sync All Forms"), function () {
 				frappe.call({
 					method: "farmtrace.farm_trace.api.kobo_sync.sync_now",
 					freeze: true,

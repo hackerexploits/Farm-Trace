@@ -6,18 +6,34 @@ from frappe import _
 
 
 @frappe.whitelist()
-def sync_now(sync_type="All"):
-	"""Manual sync trigger. sync_type: Farmer, Farm, or All."""
+def sync_now():
+	"""Manual sync - syncs all enabled Kobo Form Configurations."""
 	settings = frappe.get_single("Kobo Toolbox Settings")
 	if not settings.enable_sync:
 		frappe.throw(_("Kobo sync is disabled. Enable it in Kobo Toolbox Settings."))
 	if not settings.api_token:
 		frappe.throw(_("API Token is required in Kobo Toolbox Settings."))
 
-	result = run_kobo_sync(
-		sync_type=sync_type,
+	result = run_kobo_sync(triggered_by="Manual", settings=settings)
+	return result.get("message", "Sync completed.")
+
+
+@frappe.whitelist()
+def sync_form(form_name):
+	"""Sync a single Kobo Form Configuration by name."""
+	settings = frappe.get_single("Kobo Toolbox Settings")
+	if not settings.api_token:
+		frappe.throw(_("API Token is required in Kobo Toolbox Settings."))
+
+	config = frappe.get_doc("Kobo Form Configuration", form_name)
+	if not config.enabled:
+		frappe.throw(_("This form configuration is disabled."))
+
+	result = _sync_single_form(
+		base_url=(settings.api_url or "https://kf.kobotoolbox.org").rstrip("/"),
+		headers={"Authorization": f"Token {settings.get_password('api_token')}"},
+		config=config,
 		triggered_by="Manual",
-		settings=settings,
 	)
 	return result.get("message", "Sync completed.")
 
@@ -27,54 +43,160 @@ def run_scheduled_kobo_sync():
 	settings = frappe.get_single("Kobo Toolbox Settings")
 	if not settings.enable_sync or not settings.api_token:
 		return
-	run_kobo_sync(sync_type="All", triggered_by="Scheduled", settings=settings)
+	run_kobo_sync(triggered_by="Scheduled", settings=settings)
 
 
-def run_kobo_sync(sync_type="All", triggered_by="Scheduled", settings=None):
-	"""Run Kobo sync for Farmer and/or Farm forms."""
+def run_kobo_sync(triggered_by="Scheduled", settings=None):
+	"""Run Kobo sync for all enabled form configurations."""
 	if settings is None:
 		settings = frappe.get_single("Kobo Toolbox Settings")
 
-	base_url = (settings.api_url or "").rstrip("/")
+	base_url = (settings.api_url or "https://kf.kobotoolbox.org").rstrip("/")
 	token = settings.get_password("api_token")
-	if not base_url or not token:
-		return {"success": False, "message": "API URL and Token required"}
+	if not token:
+		return {"success": False, "message": "API Token required"}
 
 	headers = {"Authorization": f"Token {token}"}
-	results = {"farmer": None, "farm": None}
 
-	# Sync Farmers
-	if sync_type in ("All", "Farmer") and settings.farmer_form_asset_uid:
-		results["farmer"] = _sync_farmers(
-			base_url=base_url,
-			headers=headers,
-			asset_uid=settings.farmer_form_asset_uid,
-			match_field=settings.farmer_match_field or "farmer_id",
-			mappings=settings.farmer_field_mappings or [],
-			triggered_by=triggered_by,
-		)
+	configs = frappe.get_all(
+		"Kobo Form Configuration",
+		filters={"enabled": 1},
+		fields=["name", "kobo_form_asset_uid", "target_doctype", "match_field", "field_mappings"],
+	)
 
-	# Sync Farms
-	if sync_type in ("All", "Farm") and settings.farm_form_asset_uid:
-		results["farm"] = _sync_farms(
-			base_url=base_url,
-			headers=headers,
-			asset_uid=settings.farm_form_asset_uid,
-			match_field=settings.farm_match_field or "farm_id",
-			mappings=settings.farm_field_mappings or [],
-			triggered_by=triggered_by,
-		)
+	if not configs:
+		return {"success": True, "message": "No enabled form configurations."}
 
-	# Build message
 	msg_parts = []
-	if results["farmer"]:
-		r = results["farmer"]
-		msg_parts.append(f"Farmers: {r['created']} created, {r['updated']} updated, {r['failed']} failed")
-	if results["farm"]:
-		r = results["farm"]
-		msg_parts.append(f"Farms: {r['created']} created, {r['updated']} updated, {r['failed']} failed")
+	for cfg in configs:
+		config_doc = frappe.get_doc("Kobo Form Configuration", cfg.name)
+		result = _sync_single_form(
+			base_url=base_url,
+			headers=headers,
+			config=config_doc,
+			triggered_by=triggered_by,
+		)
+		if result:
+			msg_parts.append(f"{config_doc.form_name or config_doc.target_doctype}: {result.get('message', '')}")
 
-	return {"success": True, "message": "; ".join(msg_parts) if msg_parts else "No forms configured."}
+	return {"success": True, "message": "; ".join(msg_parts)}
+
+
+def _sync_single_form(base_url, headers, config, triggered_by):
+	"""Sync one Kobo form to its target DocType."""
+	field_map = _build_field_map(config.field_mappings or [])
+	if not field_map:
+		return {"message": "No field mappings configured", "created": 0, "updated": 0, "failed": 0}
+
+	submissions = _fetch_kobo_submissions(base_url, headers, config.kobo_form_asset_uid)
+	target_doctype = config.target_doctype
+	match_field = config.match_field or "name"
+
+	created, updated, failed = 0, 0, 0
+	errors = []
+
+	for sub in submissions:
+		try:
+			values = {}
+			for kobo_key, target_field in field_map.items():
+				val = sub.get(kobo_key)
+				if val is not None and val != "":
+					values[target_field] = str(val).strip() if val else None
+
+			match_val = values.get(match_field) or sub.get(match_field)
+			if not match_val:
+				failed += 1
+				errors.append(f"Submission missing match field '{match_field}'")
+				continue
+
+			# Resolve Link fields - if target_field value looks like a link, try to resolve
+			values = _resolve_link_fields(target_doctype, values)
+
+			existing = frappe.db.get_value(target_doctype, {match_field: match_val}, "name")
+			if existing:
+				doc = frappe.get_doc(target_doctype, existing)
+				_set_doc_values(doc, values)
+				doc.flags.ignore_permissions = True
+				doc.save()
+				updated += 1
+			else:
+				doc = frappe.new_doc(target_doctype)
+				_set_doc_values(doc, values)
+				_fill_required_fields(doc, target_doctype, match_field, match_val, values, sub)
+				doc.flags.ignore_permissions = True
+				doc.insert()
+				created += 1
+		except Exception as e:
+			failed += 1
+			errors.append(str(e)[:200])
+
+	sync_label = config.form_name or f"{target_doctype}"
+	_log_sync(sync_label, triggered_by, created, updated, failed, errors)
+
+	return {
+		"message": f"{created} created, {updated} updated, {failed} failed",
+		"created": created,
+		"updated": updated,
+		"failed": failed,
+	}
+
+
+def _build_field_map(mappings):
+	"""Build kobo_field -> target_field dict from child table."""
+	out = {}
+	for m in mappings:
+		kobo = (m.get("kobo_field_name") or "").strip()
+		target = (m.get("target_field") or m.get("farmer_field") or m.get("farm_field") or "").strip()
+		if kobo and target:
+			out[kobo] = target
+	return out
+
+
+def _set_doc_values(doc, values):
+	"""Set values on doc only for fields that exist."""
+	for k, v in values.items():
+		if hasattr(doc, k):
+			setattr(doc, k, v)
+
+
+def _resolve_link_fields(target_doctype, values):
+	"""Try to resolve Link field values (e.g. farmer -> Farmer doc name)."""
+	meta = frappe.get_meta(target_doctype)
+	for fieldname, value in list(values.items()):
+		if not value:
+			continue
+		df = meta.get_field(fieldname)
+		if df and df.fieldtype == "Link" and df.options:
+			# Try to find existing record by name or by a common identifier
+			existing = frappe.db.get_value(df.options, {"name": value}, "name")
+			if not existing:
+				# Try first data field as fallback
+				link_meta = frappe.get_meta(df.options)
+				for link_df in link_meta.get("fields", []):
+					if link_df.fieldtype in ("Data", "Link") and link_df.fieldname != "name":
+						existing = frappe.db.get_value(df.options, {link_df.fieldname: value}, "name")
+						if existing:
+							break
+			if existing:
+				values[fieldname] = existing
+	return values
+
+
+def _fill_required_fields(doc, target_doctype, match_field, match_val, values, sub):
+	"""Fill required fields when creating new doc."""
+	meta = frappe.get_meta(target_doctype)
+	for df in meta.get("fields", []):
+		if df.reqd and not doc.get(df.fieldname):
+			if df.fieldname == match_field:
+				doc.set(df.fieldname, match_val)
+			elif values.get(df.fieldname):
+				doc.set(df.fieldname, values[df.fieldname])
+			elif df.fieldtype == "Link" and df.options == "Farmer":
+				pass  # User must map farmer field
+			elif df.fieldname == "farm_id" and target_doctype == "Farm":
+				doc.set("farm_id", values.get("farm_id") or sub.get("_uuid", "")[:50] or f"KOBO-{match_val}")
+			elif df.fieldname == "farm_name" and target_doctype == "Farm":
+				doc.set("farm_name", values.get("farm_name") or match_val or "Unnamed Farm")
 
 
 def _fetch_kobo_submissions(base_url, headers, asset_uid):
@@ -85,7 +207,6 @@ def _fetch_kobo_submissions(base_url, headers, asset_uid):
 		resp = requests.get(url, headers=headers, timeout=60)
 		resp.raise_for_status()
 		data = resp.json()
-		# Kobo returns {"results": [...]} or list
 		if isinstance(data, dict) and "results" in data:
 			return data["results"]
 		if isinstance(data, list):
@@ -94,154 +215,6 @@ def _fetch_kobo_submissions(base_url, headers, asset_uid):
 	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), "Kobo API Error")
 		raise frappe.ValidationError(_("Kobo API error: {0}").format(str(e)))
-
-
-def _build_field_map(mappings):
-	"""Build kobo_field -> target_field dict from child table."""
-	out = {}
-	for m in mappings:
-		kobo = (m.get("kobo_field_name") or "").strip()
-		target = (m.get("farmer_field") or m.get("farm_field") or "").strip()
-		if kobo and target:
-			out[kobo] = target
-	return out
-
-
-def _sync_farmers(base_url, headers, asset_uid, match_field, mappings, triggered_by):
-	"""Sync Farmer submissions from Kobo to Farmer doctype."""
-	field_map = _build_field_map(mappings)
-	if not field_map:
-		# Default mappings for common fields
-		field_map = {
-			"farmer_id": "farmer_id",
-			"farmer_code": "farmer_code",
-			"first_name": "first_name",
-			"last_name": "last_name",
-			"latitude": "latitude",
-			"longitude": "longitude",
-			"phone_number": "phone_number",
-			"mobile_number": "mobile_number",
-			"address": "address",
-		}
-
-	submissions = _fetch_kobo_submissions(base_url, headers, asset_uid)
-	created, updated, failed = 0, 0, 0
-	errors = []
-
-	for sub in submissions:
-		try:
-			# Map Kobo fields to Farmer fields
-			values = {}
-			for kobo_key, farmer_field in field_map.items():
-				val = sub.get(kobo_key)
-				if val is not None and val != "":
-					values[farmer_field] = str(val).strip() if val else None
-
-			match_val = values.get(match_field) or sub.get(match_field)
-			if not match_val:
-				failed += 1
-				errors.append(f"Submission missing match field '{match_field}'")
-				continue
-
-			# Find existing or create new
-			existing = frappe.db.get_value("Farmer", {match_field: match_val}, "name")
-			if existing:
-				doc = frappe.get_doc("Farmer", existing)
-				for k, v in values.items():
-					if hasattr(doc, k):
-						setattr(doc, k, v)
-				doc.flags.ignore_permissions = True
-				doc.save()
-				updated += 1
-			else:
-				doc = frappe.new_doc("Farmer")
-				for k, v in values.items():
-					if hasattr(doc, k):
-						setattr(doc, k, v)
-				doc.flags.ignore_permissions = True
-				doc.insert()
-				created += 1
-		except Exception as e:
-			failed += 1
-			errors.append(str(e)[:200])
-
-	_log_sync("Farmer", triggered_by, created, updated, failed, errors)
-	return {"created": created, "updated": updated, "failed": failed}
-
-
-def _sync_farms(base_url, headers, asset_uid, match_field, mappings, triggered_by):
-	"""Sync Farm submissions from Kobo to Farm doctype."""
-	field_map = _build_field_map(mappings)
-	if not field_map:
-		field_map = {
-			"farm_id": "farm_id",
-			"farm_name": "farm_name",
-			"farmer": "farmer",
-			"latitude": "latitude",
-			"longitude": "longitude",
-			"hectares": "hectares",
-		}
-
-	submissions = _fetch_kobo_submissions(base_url, headers, asset_uid)
-	created, updated, failed = 0, 0, 0
-	errors = []
-
-	for sub in submissions:
-		try:
-			values = {}
-			for kobo_key, farm_field in field_map.items():
-				val = sub.get(kobo_key)
-				if val is not None and val != "":
-					values[farm_field] = str(val).strip() if val else None
-
-			match_val = values.get(match_field) or sub.get(match_field)
-			if not match_val:
-				failed += 1
-				errors.append(f"Submission missing match field '{match_field}'")
-				continue
-
-			# Farm links to Farmer - ensure farmer exists or resolve by name
-			farmer_val = values.get("farmer")
-			if farmer_val:
-				# Try match by farmer name (Farmer doc name) or farmer_id
-				farmer_name = frappe.db.get_value("Farmer", {"farmer_id": farmer_val}, "name")
-				if not farmer_name:
-					farmer_name = frappe.db.get_value("Farmer", {"farmer_code": farmer_val}, "name")
-				if not farmer_name:
-					farmer_name = frappe.db.get_value("Farmer", {"name": farmer_val}, "name")
-				if farmer_name:
-					values["farmer"] = farmer_name
-
-			existing = frappe.db.get_value("Farm", {match_field: match_val}, "name")
-			if existing:
-				doc = frappe.get_doc("Farm", existing)
-				for k, v in values.items():
-					if hasattr(doc, k):
-						setattr(doc, k, v)
-				doc.flags.ignore_permissions = True
-				doc.save()
-				updated += 1
-			else:
-				doc = frappe.new_doc("Farm")
-				for k, v in values.items():
-					if hasattr(doc, k):
-						setattr(doc, k, v)
-				# Farm requires farmer and farm_name; autoname uses farm_id
-				if not doc.get("farm_id"):
-					doc.farm_id = sub.get("_uuid", "")[:50] or f"KOBO-{match_val}"
-				if not doc.get("farmer") and farmer_val:
-					doc.farmer = farmer_val
-				if not doc.get("farm_name"):
-					doc.farm_name = values.get("farm_name") or match_val or "Unnamed Farm"
-				doc.flags.ignore_permissions = True
-				doc.insert()
-				created += 1
-		except Exception as e:
-			failed += 1
-			errors.append(str(e)[:200])
-
-	_log_sync("Farm", triggered_by, created, updated, failed, errors)
-	return {"created": created, "updated": updated, "failed": failed}
 
 
 def _log_sync(sync_type, triggered_by, created, updated, failed, errors):
