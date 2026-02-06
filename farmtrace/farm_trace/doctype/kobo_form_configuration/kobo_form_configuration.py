@@ -4,5 +4,5 @@
 from frappe.model.document import Document
 
 
-class KoboFarmFieldMapping(Document):
+class KoboFormConfiguration(Document):
 	pass

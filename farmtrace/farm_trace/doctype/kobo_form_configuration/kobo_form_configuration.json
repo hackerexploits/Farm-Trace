@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "field:target_doctype",
+ "creation": "2026-02-05 14:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_kobo",
+  "kobo_form_asset_uid",
+  "form_name",
+  "column_break_kobo",
+  "enabled",
+  "section_target",
+  "target_doctype",
+  "column_break_yugv",
+  "match_field",
+  "section_mapping",
+  "field_mappings"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_kobo",
+   "fieldtype": "Section Break",
+   "label": "Kobo Form"
+  },
+  {
+   "description": "From Kobo form URL: .../forms/{asset_uid}/",
+   "fieldname": "kobo_form_asset_uid",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Kobo Form Asset UID",
+   "reqd": 1
+  },
+  {
+   "description": "Optional label for this configuration (e.g. Farmer Form, Sales Invoice Form)",
+   "fieldname": "form_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Form Name"
+  },
+  {
+   "fieldname": "column_break_kobo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_target",
+   "fieldtype": "Section Break",
+   "label": "Target DocType"
+  },
+  {
+   "description": "DocType to sync data into (e.g. Farmer, Farm, Sales Invoice)",
+   "fieldname": "target_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Target DocType",
+   "options": "DocType",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "description": "Field in target DocType used to find existing records (e.g. farmer_id, name)",
+   "fieldname": "match_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Match Field",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_mapping",
+   "fieldtype": "Section Break",
+   "label": "Field Mappings"
+  },
+  {
+   "fieldname": "field_mappings",
+   "fieldtype": "Table",
+   "label": "Field Mappings",
+   "options": "Kobo Field Mapping"
+  },
+  {
+   "fieldname": "column_break_yugv",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "links": [],
+ "modified": "2026-02-07 00:40:20.680199",
+ "modified_by": "Administrator",
+ "module": "Farm Trace",
+ "name": "Kobo Form Configuration",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

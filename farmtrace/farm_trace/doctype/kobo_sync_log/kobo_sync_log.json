@@ -23,11 +23,11 @@
  "fields": [
   {
    "fieldname": "sync_type",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Sync Type",
-   "options": "Farmer\nFarm\nAll",
-   "reqd": 1
+   "reqd": 1,
+   "description": "Form name or target DocType"
   },
   {
    "fieldname": "status",
