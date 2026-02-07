@@ -84,7 +84,15 @@ app_license = "agpl-3.0"
 # ------------
 
 # Fixtures (Custom HTML Block "Farms Map" created during migrate)
-fixtures = [{"dt": "Custom HTML Block", "filters": [["name", "=", "Farms Map"]]}]
+fixtures = [
+    {
+        "dt": "Custom HTML Block",
+        "filters": [
+            ["name", "in", ["Farms Map", "Separator"]]
+        ]
+    }
+]
+
 
 # Uninstallation
 # ------------
