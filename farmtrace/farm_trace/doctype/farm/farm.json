@@ -156,7 +156,7 @@
   },
   {
    "fieldname": "hectares",
-   "fieldtype": "Float",
+   "fieldtype": "Data",
    "label": "Hectares"
   },
   {
@@ -216,7 +216,6 @@
    "label": "Status"
   },
   {
-   "default": "0",
    "fieldname": "ra_farm_status",
    "fieldtype": "Link",
    "label": "Certification",
