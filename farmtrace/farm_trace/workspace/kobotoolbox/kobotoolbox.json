@@ -1,0 +1,58 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"D42mKpCwqZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">KoboToolbox</span>\",\"col\":12}},{\"id\":\"ZIqqLZOalW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Settings\",\"col\":3}},{\"id\":\"vkUAk7LSAR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Configuration\",\"col\":3}},{\"id\":\"oEtM9HedIO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Sync Log\",\"col\":3}},{\"id\":\"Hg0P7epNvr\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}}]",
+ "creation": "2026-02-11 19:25:24.054458",
+ "custom_blocks": [
+  {
+   "custom_block_name": "separator",
+   "label": "separator"
+  }
+ ],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "solid-info",
+ "idx": 0,
+ "indicator_color": "cyan",
+ "is_hidden": 0,
+ "label": "KoboToolbox",
+ "links": [],
+ "modified": "2026-02-11 19:28:19.637057",
+ "modified_by": "Administrator",
+ "module": "Farm Trace",
+ "name": "KoboToolbox",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 24.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Kobo Settings",
+   "link_to": "Kobo Toolbox Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Kobo Configuration",
+   "link_to": "Kobo Form Configuration",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Kobo Sync Log",
+   "link_to": "Kobo Sync Log",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "KoboToolbox"
+}

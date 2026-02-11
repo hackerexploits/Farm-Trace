@@ -17,6 +17,7 @@
   "full_name",
   "gender",
   "active",
+  "total_farmhac",
   "column_break_basic_1",
   "marital_status",
   "dob",
@@ -1133,12 +1134,22 @@
    "fieldname": "full_age",
    "fieldtype": "HTML",
    "label": "Full Age"
+  },
+  {
+   "fieldname": "total_farmhac",
+   "fieldtype": "HTML",
+   "label": "Total Farm(Hac)"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-02-11 19:03:15.620019",
+ "links": [
+  {
+   "link_doctype": "Farm",
+   "link_fieldname": "farmer"
+  }
+ ],
+ "modified": "2026-02-11 19:22:07.147465",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",

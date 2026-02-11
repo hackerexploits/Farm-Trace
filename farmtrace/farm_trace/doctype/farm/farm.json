@@ -157,6 +157,11 @@
   {
    "fieldname": "hectares",
    "fieldtype": "Data",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Hectares"
   },
   {
@@ -472,7 +477,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-04 00:22:24.689594",
+ "modified": "2026-02-11 19:18:19.868815",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm",

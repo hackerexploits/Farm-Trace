@@ -14,6 +14,7 @@ frappe.ui.form.on("Farmer", {
 		if (frm.doc.village) {
 			frm.trigger("village");
 		}
+		calculate_total_hectares(frm);
 	},
 
 	village(frm) {
@@ -85,4 +86,35 @@ function calculate_age(frm) {
 			${years} years, ${months} months, ${days} days
 		</div>`
 	);
+}
+function calculate_total_hectares(frm) {
+
+	if (!frm.doc.name) return;
+
+	frappe.call({
+		method: "frappe.client.get_list",
+		args: {
+			doctype: "Farm",  // <-- confirm correct doctype name
+			fields: ["sum(hectares) as total"],
+			filters: {
+				farmer: frm.doc.name
+			},
+			limit_page_length: 1
+		},
+		callback: function(r) {
+
+			let total = 0;
+
+			if (r.message && r.message.length) {
+				total = r.message[0].total || 0;
+			}
+
+			$(frm.fields_dict['total_farmhac'].wrapper).html(
+				`<div style="font-weight:600; font-size:14px;">
+					Total Hectares: 
+					<span style="color:#2E7D32">${total}</span>
+				</div>`
+			);
+		}
+	});
 }
