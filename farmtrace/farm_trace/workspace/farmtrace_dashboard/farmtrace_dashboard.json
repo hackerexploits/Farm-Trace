@@ -1,15 +1,15 @@
 {
  "charts": [],
- "content": "[{\"id\":\"f3okLKLcEU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">FarmTrace Dashboard</span>\",\"col\":12}},{\"id\":\"jf-h4KpIyB\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Farm\",\"col\":4}},{\"id\":\"HmJJOs07-d\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Farmers\",\"col\":4}},{\"id\":\"LqwN2RbKwS\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Farmer Groups\",\"col\":4}},{\"id\":\"8AO7ESbbFm\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}},{\"id\":\"o8kLy0FDho\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Village\",\"col\":4}},{\"id\":\"yy_YJbF4lh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Ward\",\"col\":4}},{\"id\":\"KHOWB1CVA1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"District\",\"col\":4}},{\"id\":\"U6rE_reYNd\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"States\",\"col\":4}},{\"id\":\"vUV9LC4N6j\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}},{\"id\":\"cbb9dab1-d0\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Farms Map\",\"col\":12}}]",
+ "content": "[{\"id\":\"f3okLKLcEU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">FarmTrace Dashboard</span>\",\"col\":12}},{\"id\":\"jf-h4KpIyB\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Farm\",\"col\":4}},{\"id\":\"HmJJOs07-d\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Farmers\",\"col\":4}},{\"id\":\"LqwN2RbKwS\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Farmer Groups\",\"col\":4}},{\"id\":\"8AO7ESbbFm\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}},{\"id\":\"o8kLy0FDho\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Village\",\"col\":4}},{\"id\":\"yy_YJbF4lh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Ward\",\"col\":4}},{\"id\":\"KHOWB1CVA1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"District\",\"col\":4}},{\"id\":\"U6rE_reYNd\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"States\",\"col\":4}},{\"id\":\"vUV9LC4N6j\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}},{\"id\":\"cbb9dab1-d0\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Farm Satelite Map\",\"col\":12}}]",
  "creation": "2026-01-12 00:49:50.396304",
  "custom_blocks": [
   {
-   "custom_block_name": "separator",
-   "label": "separator"
+   "custom_block_name": "Farm Satelite Map",
+   "label": "Farm Satelite Map"
   },
   {
-   "custom_block_name": "Farms Map",
-   "label": "Farms Map"
+   "custom_block_name": "separator",
+   "label": "separator"
   }
  ],
  "docstatus": 0,
@@ -22,7 +22,7 @@
  "is_hidden": 0,
  "label": "FarmTrace Dashboard",
  "links": [],
- "modified": "2026-02-05 01:43:03.071497",
+ "modified": "2026-02-11 19:10:12.068848",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "FarmTrace Dashboard",

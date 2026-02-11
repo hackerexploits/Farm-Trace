@@ -13,6 +13,7 @@
   "farm_name",
   "farmer",
   "full_name",
+  "farmer_group",
   "column_break_farm_details_1",
   "village",
   "district",
@@ -157,6 +158,11 @@
   {
    "fieldname": "hectares",
    "fieldtype": "Data",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Hectares"
   },
   {
@@ -467,12 +473,19 @@
    "fieldname": "full_name",
    "fieldtype": "Data",
    "label": "Farmers Full Name"
+  },
+  {
+   "fetch_from": "farmer.farmer_group",
+   "fieldname": "farmer_group",
+   "fieldtype": "Link",
+   "label": "Farmer Group",
+   "options": "Farmer Group"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-04 00:22:24.689594",
+ "modified": "2026-02-11 19:35:37.231463",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm",

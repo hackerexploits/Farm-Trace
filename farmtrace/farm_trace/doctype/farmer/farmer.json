@@ -15,13 +15,15 @@
   "middle_name",
   "last_name",
   "full_name",
-  "active",
-  "column_break_basic_1",
   "gender",
+  "active",
+  "total_farmhac",
+  "column_break_basic_1",
+  "marital_status",
   "dob",
   "doj",
   "age",
-  "marital_status",
+  "full_age",
   "education",
   "father_husband_name",
   "section_address",
@@ -1127,12 +1129,27 @@
    "fieldname": "active",
    "fieldtype": "Check",
    "label": "Active"
+  },
+  {
+   "fieldname": "full_age",
+   "fieldtype": "HTML",
+   "label": "Full Age"
+  },
+  {
+   "fieldname": "total_farmhac",
+   "fieldtype": "HTML",
+   "label": "Total Farm(Hac)"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-02-07 00:26:43.627211",
+ "links": [
+  {
+   "link_doctype": "Farm",
+   "link_fieldname": "farmer"
+  }
+ ],
+ "modified": "2026-02-11 19:22:07.147465",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",

@@ -88,7 +88,7 @@ fixtures = [
     {
         "dt": "Custom HTML Block",
         "filters": [
-            ["name", "in", ["Farms Map", "Separator"]]
+            ["name", "in", ["Farms Map", "Separator","Farm Satelite Map"]]
         ]
     }
 ]
