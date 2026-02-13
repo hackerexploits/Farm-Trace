@@ -18,7 +18,9 @@
   "column_break_results",
   "records_failed",
   "section_errors",
-  "error_log"
+  "error_log",
+  "section_response",
+  "kobo_response"
  ],
  "fields": [
   {
@@ -99,6 +101,18 @@
    "fieldname": "error_log",
    "fieldtype": "Small Text",
    "label": "Error Log"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_response",
+   "fieldtype": "Section Break",
+   "label": "Kobo Response"
+  },
+  {
+   "fieldname": "kobo_response",
+   "fieldtype": "Long Text",
+   "label": "Response",
+   "description": "Raw response from Kobo API (for debugging)"
   }
  ],
  "index_web_pages_for_search": 0,

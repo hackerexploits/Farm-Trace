@@ -25,7 +25,6 @@
   "age",
   "full_age",
   "education",
-  "father_husband_name",
   "section_address",
   "farmer_group",
   "village",
@@ -60,6 +59,9 @@
   "religion",
   "tab_family_household",
   "section_family",
+  "father_husband_name",
+  "next_of_kin_second_name",
+  "next_of_kin_phone",
   "no_of_family_members",
   "no_of_household_members",
   "head_of_family",
@@ -274,7 +276,7 @@
   {
    "fieldname": "father_husband_name",
    "fieldtype": "Data",
-   "label": "Father/Husband Name"
+   "label": "Next of Kin FirstName"
   },
   {
    "collapsible": 1,
@@ -1139,6 +1141,16 @@
    "fieldname": "total_farmhac",
    "fieldtype": "HTML",
    "label": "Total Farm(Hac)"
+  },
+  {
+   "fieldname": "next_of_kin_second_name",
+   "fieldtype": "Data",
+   "label": "Next of Kin Second Name"
+  },
+  {
+   "fieldname": "next_of_kin_phone",
+   "fieldtype": "Data",
+   "label": "Next of Kin Phone"
   }
  ],
  "grid_page_length": 50,
@@ -1149,7 +1161,7 @@
    "link_fieldname": "farmer"
   }
  ],
- "modified": "2026-02-11 19:22:07.147465",
+ "modified": "2026-02-13 22:57:42.816185",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",
