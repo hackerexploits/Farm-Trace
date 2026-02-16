@@ -99,16 +99,18 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 		try:
 			values = {}
 			for kobo_key, target_field in field_map.items():
-				val = sub.get(kobo_key)
+				val = _get_kobo_value(sub, kobo_key)
 				if val is not None and val != "":
 					values[target_field] = str(val).strip() if val else None
 
-			match_val = values.get(match_field) or sub.get(match_field)
+			match_val = values.get(match_field) or _get_kobo_value(sub, match_field)
 			if not match_val:
 				failed += 1
 				errors.append(f"Submission missing match field '{match_field}'")
 				continue
 
+			# Title-case string values so Link lookups match (e.g. seira-buikwe -> Seira-Buikwe)
+			values = _title_case_values(values)
 			# Resolve Link fields - if target_field value looks like a link, try to resolve
 			values = _resolve_link_fields(target_doctype, values)
 
@@ -141,6 +143,23 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 	}
 
 
+def _get_kobo_value(sub, kobo_key):
+	"""Get value from Kobo submission. Tries exact key first, then key ending with /kobo_key (e.g. farmer_reg/first_name)."""
+	if not kobo_key:
+		return None
+	# Exact match (e.g. farmer_reg/first_name in mapping)
+	val = sub.get(kobo_key)
+	if val is not None and val != "":
+		return val
+	# Kobo uses group prefixes: farmer_reg/first_name. Try short name (first_name) -> any key ending with /first_name
+	if "/" not in kobo_key:
+		for key, v in sub.items():
+			if key.endswith("/" + kobo_key) and v is not None and v != "":
+				return v
+		# Also try key equals kobo_key (already tried above)
+	return None
+
+
 def _build_field_map(mappings):
 	"""Build kobo_field -> target_field dict from child table."""
 	out = {}
@@ -152,10 +171,56 @@ def _build_field_map(mappings):
 	return out
 
 
+def _title_case_values(values):
+	"""Apply title-case to all string values so e.g. seira-buikwe -> Seira-Buikwe for Link lookups."""
+	out = {}
+	for k, v in values.items():
+		if v is not None and isinstance(v, str) and v.strip():
+			out[k] = _title_case(v)
+		else:
+			out[k] = v
+	return out
+
+
+def _normalize_value_for_field(meta, fieldname, value):
+	"""
+	Normalize value so it matches DocType options/case.
+	- Select: match option case-insensitively (e.g. male -> Male).
+	- Link/Data: title-case (e.g. seira-buikwe -> Seira-Buikwe).
+	"""
+	if value is None or (isinstance(value, str) and not value.strip()):
+		return value
+	value = str(value).strip()
+	df = meta.get_field(fieldname)
+	if not df:
+		return _title_case(value)
+	if df.fieldtype == "Select" and getattr(df, "options", None):
+		options = (df.options or "").split("\n")
+		options = [o.strip() for o in options if o.strip()]
+		value_lower = value.lower()
+		for opt in options:
+			if opt.lower() == value_lower:
+				return opt
+		return value
+	if df.fieldtype in ("Link", "Data", "Text"):
+		return _title_case(value)
+	return value
+
+
+def _title_case(s):
+	"""Capitalise first letter of each word (words split by space or hyphen). e.g. seira-buikwe -> Seira-Buikwe."""
+	if not s:
+		return s
+	parts = s.replace("-", " ").split()
+	return "-".join(part.strip().capitalize() for part in parts) if s.find("-") != -1 else " ".join(part.strip().capitalize() for part in parts)
+
+
 def _set_doc_values(doc, values):
-	"""Set values on doc only for fields that exist."""
+	"""Set values on doc only for fields that exist. Normalizes Select/Link/Data to match options and title-case."""
+	meta = doc.meta
 	for k, v in values.items():
 		if hasattr(doc, k):
+			v = _normalize_value_for_field(meta, k, v)
 			setattr(doc, k, v)
 
 
