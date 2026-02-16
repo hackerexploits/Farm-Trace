@@ -88,7 +88,7 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 	if not field_map:
 		return {"message": "No field mappings configured", "created": 0, "updated": 0, "failed": 0}
 
-	submissions = _fetch_kobo_submissions(base_url, headers, config.kobo_form_asset_uid)
+	submissions, raw_response = _fetch_kobo_submissions(base_url, headers, config.kobo_form_asset_uid)
 	target_doctype = config.target_doctype
 	match_field = config.match_field or "name"
 
@@ -131,7 +131,7 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 			errors.append(str(e)[:200])
 
 	sync_label = config.form_name or f"{target_doctype}"
-	_log_sync(sync_label, triggered_by, created, updated, failed, errors)
+	_log_sync(sync_label, triggered_by, created, updated, failed, errors, kobo_response=raw_response)
 
 	return {
 		"message": f"{created} created, {updated} updated, {failed} failed",
@@ -200,26 +200,29 @@ def _fill_required_fields(doc, target_doctype, match_field, match_val, values, s
 
 
 def _fetch_kobo_submissions(base_url, headers, asset_uid):
-	"""Fetch submissions from Kobo API v2."""
+	"""Fetch submissions from Kobo API v2. Returns (submissions_list, raw_response_text)."""
 	url = f"{base_url}/api/v2/assets/{asset_uid}/data/"
 	try:
 		import requests
 		resp = requests.get(url, headers=headers, timeout=60)
+		raw_response = resp.text
 		resp.raise_for_status()
 		data = resp.json()
 		if isinstance(data, dict) and "results" in data:
-			return data["results"]
+			return data["results"], raw_response
 		if isinstance(data, list):
-			return data
-		return []
+			return data, raw_response
+		return [], raw_response
 	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), "Kobo API Error")
 		raise frappe.ValidationError(_("Kobo API error: {0}").format(str(e)))
 
 
-def _log_sync(sync_type, triggered_by, created, updated, failed, errors):
+def _log_sync(sync_type, triggered_by, created, updated, failed, errors, kobo_response=None):
 	from frappe.utils import now
 	status = "Success" if failed == 0 else ("Failed" if created == 0 and updated == 0 else "Partial")
+	# Truncate response to avoid huge storage (Long Text still has limits)
+	response_stored = (kobo_response[:100000] + "\n... (truncated)") if kobo_response and len(kobo_response) > 100000 else (kobo_response or "")
 	log = frappe.get_doc(
 		doctype="Kobo Sync Log",
 		sync_type=sync_type,
@@ -231,6 +234,7 @@ def _log_sync(sync_type, triggered_by, created, updated, failed, errors):
 		records_updated=updated,
 		records_failed=failed,
 		error_log="\n".join(errors[:20]) if errors else None,
+		kobo_response=response_stored,
 	)
 	log.insert(ignore_permissions=True)
 	frappe.db.commit()
