@@ -107,27 +107,6 @@
   "drinking_water_source",
   "drinking_water_source_other",
   "tab_certification_organization",
-  "section_certification",
-  "certificate_standard_id",
-  "certificate_standard_level",
-  "certification_type",
-  "is_farmer_certified",
-  "ics_status",
-  "column_break_certification_1",
-  "ics_name",
-  "ics_code",
-  "ics_trcaenet_reg_no",
-  "farmer_code_by_ics",
-  "framer_code_by_trcaenet",
-  "ics_unit_no",
-  "section_organization",
-  "samithi_id",
-  "sangham",
-  "position_group",
-  "column_break_hveo",
-  "fpo",
-  "category",
-  "branch_id",
   "section_enrollment",
   "enrollment_date",
   "enroll_place",
@@ -385,73 +364,6 @@
    "label": "Certification & Organization"
   },
   {
-   "collapsible": 1,
-   "fieldname": "section_certification",
-   "fieldtype": "Section Break",
-   "label": "Certification Information"
-  },
-  {
-   "fieldname": "certificate_standard_id",
-   "fieldtype": "Int",
-   "label": "Certificate Standard ID"
-  },
-  {
-   "default": "0",
-   "fieldname": "certificate_standard_level",
-   "fieldtype": "Int",
-   "label": "Certificate Standard Level"
-  },
-  {
-   "default": "0",
-   "fieldname": "certification_type",
-   "fieldtype": "Int",
-   "label": "Certification Type"
-  },
-  {
-   "fieldname": "is_farmer_certified",
-   "fieldtype": "Int",
-   "label": "Is Farmer Certified"
-  },
-  {
-   "fieldname": "ics_status",
-   "fieldtype": "Int",
-   "label": "ICS Status"
-  },
-  {
-   "fieldname": "column_break_certification_1",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "ics_name",
-   "fieldtype": "Text",
-   "label": "ICS Name"
-  },
-  {
-   "fieldname": "ics_code",
-   "fieldtype": "Text",
-   "label": "ICS Code"
-  },
-  {
-   "fieldname": "ics_trcaenet_reg_no",
-   "fieldtype": "Text",
-   "label": "ICS TRCAENET Reg No"
-  },
-  {
-   "fieldname": "farmer_code_by_ics",
-   "fieldtype": "Text",
-   "label": "Farmer Code by ICS"
-  },
-  {
-   "fieldname": "framer_code_by_trcaenet",
-   "fieldtype": "Text",
-   "label": "Farmer Code by TRCAENET"
-  },
-  {
-   "fieldname": "ics_unit_no",
-   "fieldtype": "Text",
-   "label": "ICS Unit No"
-  },
-  {
    "fieldname": "tab_financial_additional",
    "fieldtype": "Tab Break",
    "label": "Financial & Additional"
@@ -464,24 +376,24 @@
   },
   {
    "fieldname": "life_or_health_insurance",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Life or Health Insurance"
   },
   {
    "default": "0",
    "fieldname": "life_insurance",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Life Insurance"
   },
   {
    "default": "0",
    "fieldname": "health_insurance",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Health Insurance"
   },
   {
    "fieldname": "life_ins_amt",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Life Insurance Amount"
   },
   {
@@ -490,22 +402,22 @@
   },
   {
    "fieldname": "health_ins_amt",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Health Insurance Amount"
   },
   {
    "fieldname": "crop_insurance",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Crop Insurance"
   },
   {
    "fieldname": "farmer_crop_insurance",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Farmer Crop Insurance"
   },
   {
    "fieldname": "acres_insured",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Acres Insured"
   },
   {
@@ -522,7 +434,7 @@
   },
   {
    "fieldname": "loan_taken_from",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Loan Taken From"
   },
   {
@@ -532,7 +444,7 @@
   },
   {
    "fieldname": "loan_amount",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Loan Amount"
   },
   {
@@ -551,12 +463,12 @@
   },
   {
    "fieldname": "loan_int_rate",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Loan Interest Rate"
   },
   {
    "fieldname": "loan_int_period",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Loan Interest Period"
   },
   {
@@ -915,46 +827,10 @@
    "label": "Verified Agent Name"
   },
   {
-   "collapsible": 1,
-   "fieldname": "section_organization",
-   "fieldtype": "Section Break",
-   "label": "Organization Information"
-  },
-  {
-   "fieldname": "samithi_id",
-   "fieldtype": "Int",
-   "label": "Samithi ID"
-  },
-  {
    "fieldname": "farmer_group",
    "fieldtype": "Link",
    "label": "Farmer Group",
    "options": "Farmer Group"
-  },
-  {
-   "fieldname": "sangham",
-   "fieldtype": "Text",
-   "label": "Sangham"
-  },
-  {
-   "fieldname": "position_group",
-   "fieldtype": "Text",
-   "label": "Position Group"
-  },
-  {
-   "fieldname": "fpo",
-   "fieldtype": "Text",
-   "label": "FPO"
-  },
-  {
-   "fieldname": "category",
-   "fieldtype": "Text",
-   "label": "Category"
-  },
-  {
-   "fieldname": "branch_id",
-   "fieldtype": "Text",
-   "label": "Branch ID"
   },
   {
    "collapsible": 1,
@@ -970,7 +846,7 @@
   {
    "default": "0",
    "fieldname": "enroll_place",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Enroll Place"
   },
   {
@@ -1094,10 +970,6 @@
    "label": "No. of Healthy Vines"
   },
   {
-   "fieldname": "column_break_hveo",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "column_break_vezk",
    "fieldtype": "Column Break"
   },
@@ -1161,7 +1033,7 @@
    "link_fieldname": "farmer"
   }
  ],
- "modified": "2026-02-13 22:57:42.816185",
+ "modified": "2026-02-17 00:05:18.690295",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",
@@ -1185,5 +1057,6 @@
  "rows_threshold_for_grid_search": 20,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "image_field": "contract_image"
 }

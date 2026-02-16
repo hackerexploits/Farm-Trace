@@ -128,6 +128,9 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 				doc.flags.ignore_permissions = True
 				doc.insert()
 				created += 1
+
+			# Attach Kobo image to contract_image (e.g. farmer_photo -> Farmer.contract_image)
+			_attach_kobo_image_to_doc(doc, sub, headers, target_doctype)
 		except Exception as e:
 			failed += 1
 			errors.append(str(e)[:200])
@@ -262,6 +265,66 @@ def _fill_required_fields(doc, target_doctype, match_field, match_val, values, s
 				doc.set("farm_id", values.get("farm_id") or sub.get("_uuid", "")[:50] or f"KOBO-{match_val}")
 			elif df.fieldname == "farm_name" and target_doctype == "Farm":
 				doc.set("farm_name", values.get("farm_name") or match_val or "Unnamed Farm")
+
+
+def _attach_kobo_image_to_doc(doc, sub, headers, target_doctype):
+	"""If submission has _attachments (e.g. farmer_photo), download and set as contract_image on Farmer."""
+	if target_doctype != "Farmer" or not hasattr(doc, "contract_image"):
+		return
+	attachments = sub.get("_attachments") or []
+	if not attachments:
+		return
+	# Prefer attachment linked to farmer_photo; else first image
+	image_att = None
+	for att in attachments:
+		if att.get("is_deleted"):
+			continue
+		q = (att.get("question_xpath") or "")
+		if "photo" in q.lower() or "farmer_photo" in q:
+			image_att = att
+			break
+	if not image_att:
+		for att in attachments:
+			if att.get("is_deleted"):
+				continue
+			mt = (att.get("mimetype") or "")
+			if "image" in mt:
+				image_att = att
+				break
+	if not image_att:
+		return
+	download_url = image_att.get("download_url")
+	if not download_url:
+		return
+	try:
+		import requests
+		resp = requests.get(download_url, headers=headers, timeout=30)
+		resp.raise_for_status()
+		content = resp.content
+	except Exception:
+		return
+	fname = image_att.get("media_file_basename") or image_att.get("filename", "kobo_image.jpg")
+	if "/" in fname:
+		fname = fname.split("/")[-1]
+	if not fname.lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".webp")):
+		fname = fname + ".jpg"
+	try:
+		from frappe.utils.file_manager import save_file
+		file_doc = save_file(
+			fname=fname,
+			content=content,
+			dt=target_doctype,
+			dn=doc.name,
+			folder="Home/Attachments",
+			is_private=0,
+			df="contract_image",
+		)
+		if file_doc and file_doc.file_url:
+			doc.contract_image = file_doc.file_url
+			doc.flags.ignore_permissions = True
+			doc.save()
+	except Exception:
+		pass
 
 
 def _fetch_kobo_submissions(base_url, headers, asset_uid):
