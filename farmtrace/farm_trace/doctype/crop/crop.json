@@ -7,7 +7,9 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "crop_name"
+  "crop_name",
+  "column_break_amlc",
+  "item"
  ],
  "fields": [
   {
@@ -17,12 +19,22 @@
    "in_standard_filter": 1,
    "label": "Crop name",
    "unique": 1
+  },
+  {
+   "fieldname": "column_break_amlc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-10 18:55:52.665177",
+ "modified": "2026-02-17 01:18:21.385228",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Crop",

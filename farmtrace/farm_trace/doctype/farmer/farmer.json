@@ -18,6 +18,7 @@
   "gender",
   "active",
   "total_farmhac",
+  "supplier",
   "column_break_basic_1",
   "marital_status",
   "dob",
@@ -1023,9 +1024,16 @@
    "fieldname": "next_of_kin_phone",
    "fieldtype": "Data",
    "label": "Next of Kin Phone"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
   }
  ],
  "grid_page_length": 50,
+ "image_field": "contract_image",
  "index_web_pages_for_search": 1,
  "links": [
   {
@@ -1033,7 +1041,7 @@
    "link_fieldname": "farmer"
   }
  ],
- "modified": "2026-02-17 00:05:18.690295",
+ "modified": "2026-02-17 01:55:27.446714",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",
@@ -1057,6 +1065,5 @@
  "rows_threshold_for_grid_search": 20,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "image_field": "contract_image"
+ "states": []
 }
