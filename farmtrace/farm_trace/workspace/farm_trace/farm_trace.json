@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"qaAVw35Hci\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Farm Trace</span>\",\"col\":12}},{\"id\":\"qT5lKwdvfg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farm\",\"col\":3}},{\"id\":\"NzXjg8kxIk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farmer\",\"col\":3}},{\"id\":\"6uxT_WLeBF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farmer Group\",\"col\":3}},{\"id\":\"McBRDCy0ol\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"3VhSn7nkWM\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}},{\"id\":\"oUdLTP937l\",\"type\":\"card\",\"data\":{\"card_name\":\"Master Doctype\",\"col\":4}},{\"id\":\"b21s4sD7uo\",\"type\":\"card\",\"data\":{\"card_name\":\"Trainings\",\"col\":4}},{\"id\":\"jp4pnMRlG8\",\"type\":\"card\",\"data\":{\"card_name\":\"Geographical\",\"col\":4}},{\"id\":\"UmuJXz6loX\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}}]",
+ "content": "[{\"id\":\"qaAVw35Hci\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Farm Trace</span>\",\"col\":12}},{\"id\":\"qT5lKwdvfg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farm\",\"col\":3}},{\"id\":\"NzXjg8kxIk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farmer\",\"col\":3}},{\"id\":\"6uxT_WLeBF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farmer Group\",\"col\":3}},{\"id\":\"8Ka1bC1nnY\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farm Purchases\",\"col\":3}},{\"id\":\"McBRDCy0ol\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"3VhSn7nkWM\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}},{\"id\":\"oUdLTP937l\",\"type\":\"card\",\"data\":{\"card_name\":\"Master Doctype\",\"col\":4}},{\"id\":\"b21s4sD7uo\",\"type\":\"card\",\"data\":{\"card_name\":\"Trainings\",\"col\":4}},{\"id\":\"jp4pnMRlG8\",\"type\":\"card\",\"data\":{\"card_name\":\"Geographical\",\"col\":4}},{\"id\":\"UmuJXz6loX\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}}]",
  "creation": "2026-01-10 22:53:37.378829",
  "custom_blocks": [
   {
@@ -184,48 +184,9 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Kobo Integration",
-   "link_count": 3,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Kobo Toolbox Settings",
-   "link_count": 0,
-   "link_to": "Kobo Toolbox Settings",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Kobo Form Configuration",
-   "link_count": 0,
-   "link_to": "Kobo Form Configuration",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Kobo Sync Log",
-   "link_count": 0,
-   "link_to": "Kobo Sync Log",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
   }
  ],
- "modified": "2026-01-12 01:01:05.668673",
+ "modified": "2026-02-19 22:29:05.989890",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm Trace",
@@ -242,6 +203,14 @@
    "doc_view": "List",
    "label": "Farm",
    "link_to": "Farm",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Farm Purchases",
+   "link_to": "Farm Purchase Intake",
    "stats_filter": "[]",
    "type": "DocType"
   },
