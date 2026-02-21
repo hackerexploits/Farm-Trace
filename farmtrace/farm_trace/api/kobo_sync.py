@@ -185,29 +185,111 @@ def _title_case_values(values):
 	return out
 
 
+# def _normalize_value_for_field(meta, fieldname, value):
+# 	"""
+# 	Normalize value so it matches DocType options/case.
+# 	- Select: match option case-insensitively (e.g. male -> Male).
+# 	- Link/Data: title-case (e.g. seira-buikwe -> Seira-Buikwe).
+# 	"""
+# 	if value is None or (isinstance(value, str) and not value.strip()):
+# 		return value
+# 	value = str(value).strip()
+# 	df = meta.get_field(fieldname)
+# 	if not df:
+# 		return _title_case(value)
+# 	if df.fieldtype == "Select" and getattr(df, "options", None):
+# 		options = (df.options or "").split("\n")
+# 		options = [o.strip() for o in options if o.strip()]
+# 		value_lower = value.lower()
+# 		for opt in options:
+# 			if opt.lower() == value_lower:
+# 				return opt
+# 		return value
+# 	if df.fieldtype in ("Link", "Data", "Text"):
+# 		return _title_case(value)
+# 	return value
+
+def _normalize_kobo_slug(value):
+    """
+    Convert Kobo snake_case slugs to human-readable form.
+    e.g. rainforest_alliance_standard -> Rainforest Alliance Standard
+         vanilla_farming              -> Vanilla Farming
+         seira-buikwe                 -> Seira-Buikwe
+    """
+    if not value or not isinstance(value, str):
+        return value
+    # Replace underscores with spaces, then title-case each word
+    return " ".join(word.capitalize() for word in value.replace("_", " ").split())
+
+
 def _normalize_value_for_field(meta, fieldname, value):
-	"""
-	Normalize value so it matches DocType options/case.
-	- Select: match option case-insensitively (e.g. male -> Male).
-	- Link/Data: title-case (e.g. seira-buikwe -> Seira-Buikwe).
-	"""
-	if value is None or (isinstance(value, str) and not value.strip()):
-		return value
-	value = str(value).strip()
-	df = meta.get_field(fieldname)
-	if not df:
-		return _title_case(value)
-	if df.fieldtype == "Select" and getattr(df, "options", None):
-		options = (df.options or "").split("\n")
-		options = [o.strip() for o in options if o.strip()]
-		value_lower = value.lower()
-		for opt in options:
-			if opt.lower() == value_lower:
-				return opt
-		return value
-	if df.fieldtype in ("Link", "Data", "Text"):
-		return _title_case(value)
-	return value
+    """
+    Normalize value so it matches DocType options/case.
+
+    Kobo sends snake_case slugs like 'rainforest_alliance_standard'.
+    We convert to human form first, then match against actual options/records.
+
+    - Select: match option case-insensitively after slug conversion
+    - Link:   try slug-converted value against DB records
+    - Data:   title-case
+    """
+    if value is None or (isinstance(value, str) and not value.strip()):
+        return value
+
+    value = str(value).strip()
+    df = meta.get_field(fieldname)
+
+    if not df:
+        return _normalize_kobo_slug(value)
+
+    # ── SELECT ────────────────────────────────────────────────────────────────
+    if df.fieldtype == "Select" and getattr(df, "options", None):
+        options = [o.strip() for o in (df.options or "").split("\n") if o.strip()]
+
+        # 1. Exact match first (fastest)
+        if value in options:
+            return value
+
+        # 2. Case-insensitive exact match
+        value_lower = value.lower()
+        for opt in options:
+            if opt.lower() == value_lower:
+                return opt
+
+        # 3. Convert Kobo slug → human form, then case-insensitive match
+        human = _normalize_kobo_slug(value)
+        human_lower = human.lower()
+        for opt in options:
+            if opt.lower() == human_lower:
+                return opt
+
+        # 4. Underscore-replaced match (without capitalising) as last resort
+        slug_lower = value.replace("_", " ").lower()
+        for opt in options:
+            if opt.lower() == slug_lower:
+                return opt
+
+        # Nothing matched — log and return original so validation surfaces the error
+        frappe.log_error(
+            f"Select field '{fieldname}' has no option matching '{value}' "
+            f"(tried: '{human}'). Available: {options}",
+            "Kobo Select Mismatch"
+        )
+        return value
+
+    # ── LINK ─────────────────────────────────────────────────────────────────
+    if df.fieldtype == "Link":
+        # Try slug conversion first, then title-case
+        for candidate in [value, _normalize_kobo_slug(value), _title_case(value)]:
+            if candidate and frappe.db.exists(df.options, candidate):
+                return candidate
+        return _normalize_kobo_slug(value)  # best guess for _resolve_link_fields
+
+    # ── DATA / TEXT ───────────────────────────────────────────────────────────
+    if df.fieldtype in ("Data", "Text", "Small Text", "Long Text"):
+        return _title_case(value)
+
+    return value
 
 
 def _title_case(s):
@@ -267,64 +349,105 @@ def _fill_required_fields(doc, target_doctype, match_field, match_val, values, s
 				doc.set("farm_name", values.get("farm_name") or match_val or "Unnamed Farm")
 
 
+# Maps: target_doctype -> (image_field_on_doc, xpath_keywords_to_match)
+DOCTYPE_IMAGE_CONFIG = {
+    "Farmer": ("contract_image", ["photo_farmer", "farmer_photo", "photo"]),
+    "Farm":   ("photo",          ["photo_farm", "farm_photo", "photo"]),
+}
+
+
 def _attach_kobo_image_to_doc(doc, sub, headers, target_doctype):
-	"""If submission has _attachments (e.g. farmer_photo), download and set as contract_image on Farmer."""
-	if target_doctype != "Farmer" or not hasattr(doc, "contract_image"):
-		return
-	attachments = sub.get("_attachments") or []
-	if not attachments:
-		return
-	# Prefer attachment linked to farmer_photo; else first image
-	image_att = None
-	for att in attachments:
-		if att.get("is_deleted"):
-			continue
-		q = (att.get("question_xpath") or "")
-		if "photo" in q.lower() or "farmer_photo" in q:
-			image_att = att
-			break
-	if not image_att:
-		for att in attachments:
-			if att.get("is_deleted"):
-				continue
-			mt = (att.get("mimetype") or "")
-			if "image" in mt:
-				image_att = att
-				break
-	if not image_att:
-		return
-	download_url = image_att.get("download_url")
-	if not download_url:
-		return
-	try:
-		import requests
-		resp = requests.get(download_url, headers=headers, timeout=30)
-		resp.raise_for_status()
-		content = resp.content
-	except Exception:
-		return
-	fname = image_att.get("media_file_basename") or image_att.get("filename", "kobo_image.jpg")
-	if "/" in fname:
-		fname = fname.split("/")[-1]
-	if not fname.lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".webp")):
-		fname = fname + ".jpg"
-	try:
-		from frappe.utils.file_manager import save_file
-		file_doc = save_file(
-			fname=fname,
-			content=content,
-			dt=target_doctype,
-			dn=doc.name,
-			folder="Home/Attachments",
-			is_private=0,
-			df="contract_image",
-		)
-		if file_doc and file_doc.file_url:
-			doc.contract_image = file_doc.file_url
-			doc.flags.ignore_permissions = True
-			doc.save()
-	except Exception:
-		pass
+    """
+    Download Kobo attachment and save it to the correct image field on the doc.
+    Supports Farmer (contract_image) and Farm (photo).
+    Extend DOCTYPE_IMAGE_CONFIG above to support more doctypes.
+    """
+    config = DOCTYPE_IMAGE_CONFIG.get(target_doctype)
+    if not config:
+        return  # doctype not configured for image attachment
+
+    image_field, xpath_keywords = config
+
+    if not hasattr(doc, image_field):
+        return
+
+    attachments = sub.get("_attachments") or []
+    if not attachments:
+        return
+
+    # ── Step 1: Find the right attachment by question_xpath keywords ──────────
+    image_att = None
+
+    # Priority: match by xpath keyword (most specific)
+    for keyword in xpath_keywords:
+        for att in attachments:
+            if att.get("is_deleted"):
+                continue
+            xpath = (att.get("question_xpath") or "").lower()
+            if keyword.lower() in xpath:
+                image_att = att
+                break
+        if image_att:
+            break
+
+    # Fallback: first non-deleted image attachment
+    if not image_att:
+        for att in attachments:
+            if att.get("is_deleted"):
+                continue
+            if "image" in (att.get("mimetype") or "").lower():
+                image_att = att
+                break
+
+    if not image_att:
+        return
+
+    # ── Step 2: Download the image ────────────────────────────────────────────
+    download_url = image_att.get("download_url")
+    if not download_url:
+        return
+
+    try:
+        import requests
+        resp = requests.get(download_url, headers=headers, timeout=30)
+        resp.raise_for_status()
+        content = resp.content
+    except Exception as e:
+        frappe.log_error(f"Failed to download Kobo image for {target_doctype} {doc.name}: {e}", "Kobo Image Download")
+        return
+
+    # ── Step 3: Clean up filename ─────────────────────────────────────────────
+    fname = image_att.get("media_file_basename") or image_att.get("filename") or "kobo_image.jpg"
+    if "/" in fname:
+        fname = fname.split("/")[-1]
+    if not fname.lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".webp")):
+        fname += ".jpg"
+
+    # ── Step 4: Save file and attach to doc ───────────────────────────────────
+    try:
+        from frappe.utils.file_manager import save_file
+
+        file_doc = save_file(
+            fname=fname,
+            content=content,
+            dt=target_doctype,
+            dn=doc.name,
+            folder="Home/Attachments",
+            is_private=0,
+            df=image_field,
+        )
+
+        if file_doc and file_doc.file_url:
+            setattr(doc, image_field, file_doc.file_url)
+            doc.flags.ignore_permissions = True
+            doc.save()
+            frappe.logger().info(f"[Kobo] Attached image to {target_doctype} {doc.name} → {image_field}")
+
+    except Exception as e:
+        frappe.log_error(
+            f"Failed to save Kobo image for {target_doctype} {doc.name} field '{image_field}': {e}",
+            "Kobo Image Save"
+        )
 
 
 def _fetch_kobo_submissions(base_url, headers, asset_uid):

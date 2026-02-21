@@ -42,6 +42,13 @@ app_license = "agpl-3.0"
 
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
+app_include_js = [
+    "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+]
+
+app_include_css = [
+    "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+]
 
 # include js in doctype views
 doctype_js = {
