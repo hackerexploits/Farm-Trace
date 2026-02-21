@@ -75,7 +75,7 @@ def get_items_from_farm_intake(intake_names):
                 "qty": flt(row.quantity),
                 "uom": intake.uom,
                 "farm_purchase_intake": intake.name,
-                "barcode": getattr(row, "barcode", None)
+                "custom_transaction_barcode": getattr(row, "barcode", None)
             })
 
     return {

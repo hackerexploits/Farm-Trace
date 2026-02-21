@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"D42mKpCwqZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">KoboToolbox</span>\",\"col\":12}},{\"id\":\"ZIqqLZOalW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Settings\",\"col\":3}},{\"id\":\"vkUAk7LSAR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Configuration\",\"col\":3}},{\"id\":\"oEtM9HedIO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Sync Log\",\"col\":3}},{\"id\":\"Hg0P7epNvr\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}}]",
+ "content": "[{\"id\":\"D42mKpCwqZ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">KoboToolbox</span>\",\"col\":12}},{\"id\":\"ZIqqLZOalW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Settings\",\"col\":3}},{\"id\":\"vkUAk7LSAR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Configuration\",\"col\":3}},{\"id\":\"oEtM9HedIO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Kobo Sync Log\",\"col\":3}},{\"id\":\"j8Fjt8NxF8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Farm Purchase Intake\",\"col\":3}},{\"id\":\"Hg0P7epNvr\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"separator\",\"col\":12}}]",
  "creation": "2026-02-11 19:25:24.054458",
  "custom_blocks": [
   {
@@ -18,7 +18,7 @@
  "is_hidden": 0,
  "label": "KoboToolbox",
  "links": [],
- "modified": "2026-02-11 19:28:19.637057",
+ "modified": "2026-02-21 21:39:38.974645",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "KoboToolbox",
@@ -35,6 +35,14 @@
    "doc_view": "List",
    "label": "Kobo Settings",
    "link_to": "Kobo Toolbox Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Farm Purchase Intake",
+   "link_to": "Farm Purchase Intake",
+   "stats_filter": "[]",
    "type": "DocType"
   },
   {
