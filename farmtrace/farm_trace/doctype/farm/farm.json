@@ -24,15 +24,18 @@
   "land_in_production",
   "land_nt_in_production",
   "latitude",
-  "column_break_location_1",
   "longitude",
+  "farm_ownership",
+  "column_break_location_1",
   "landmark",
   "land_topology",
+  "section_break_hbcp",
+  "polygon_map",
   "section_farm_status",
   "farm_status",
   "plotting_status",
   "status",
-  "ra_farm_status",
+  "certification",
   "column_break_snxf",
   "is_verified",
   "verified_date",
@@ -222,12 +225,6 @@
    "label": "Status"
   },
   {
-   "fieldname": "ra_farm_status",
-   "fieldtype": "Link",
-   "label": "Certification",
-   "options": "Main Certification"
-  },
-  {
    "default": "0",
    "fieldname": "is_verified",
    "fieldtype": "Check",
@@ -407,7 +404,7 @@
   },
   {
    "fieldname": "photo",
-   "fieldtype": "Text",
+   "fieldtype": "Attach Image",
    "label": "Photo"
   },
   {
@@ -480,12 +477,34 @@
    "fieldtype": "Link",
    "label": "Farmer Group",
    "options": "Farmer Group"
+  },
+  {
+   "fieldname": "farm_ownership",
+   "fieldtype": "Select",
+   "label": "Farm Ownership",
+   "options": "\nOwned\nLeased"
+  },
+  {
+   "fieldname": "certification",
+   "fieldtype": "Link",
+   "label": "Certification",
+   "options": "Main Certification"
+  },
+  {
+   "fieldname": "polygon_map",
+   "fieldtype": "HTML",
+   "label": "Polygon"
+  },
+  {
+   "fieldname": "section_break_hbcp",
+   "fieldtype": "Section Break"
   }
  ],
  "grid_page_length": 50,
+ "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-11 19:35:37.231463",
+ "modified": "2026-02-21 19:23:53.611688",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm",
