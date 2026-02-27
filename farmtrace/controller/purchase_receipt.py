@@ -60,6 +60,7 @@ def get_items_from_farm_intake(intake_names):
         supplier = get_or_create_supplier_from_farmer(intake.farmer)
 
         posting_date = intake.purchase_date
+        
 
         # ✅ Loop child items
         for row in intake.items:
@@ -81,5 +82,6 @@ def get_items_from_farm_intake(intake_names):
     return {
         "supplier": supplier,
         "posting_date": posting_date,
-        "items": all_items
+        "items": all_items,
+        "currency":intake.currency
     }
