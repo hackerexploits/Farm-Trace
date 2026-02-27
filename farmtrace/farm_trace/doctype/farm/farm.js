@@ -246,7 +246,6 @@ function draw_polygon(frm, coordinates) {
     }, 700);
 }
 
-
 function compute_area_ha(coords) {
     let n    = coords.length - 1;
     let area = 0;

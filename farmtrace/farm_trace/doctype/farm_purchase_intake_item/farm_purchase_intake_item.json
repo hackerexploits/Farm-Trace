@@ -9,7 +9,9 @@
   "item",
   "barcode",
   "column_break_vbpk",
-  "quantity"
+  "quantity",
+  "unit_price",
+  "amount"
  ],
  "fields": [
   {
@@ -44,12 +46,28 @@
    "in_standard_filter": 1,
    "label": "Item",
    "options": "Item"
+  },
+  {
+   "fieldname": "unit_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Unit Price",
+   "options": "currency"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Amount",
+   "options": "currency"
   }
  ],
  "grid_page_length": 50,
  "istable": 1,
  "links": [],
- "modified": "2026-02-21 21:38:35.101082",
+ "modified": "2026-02-27 17:39:01.916408",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm Purchase Intake Item",

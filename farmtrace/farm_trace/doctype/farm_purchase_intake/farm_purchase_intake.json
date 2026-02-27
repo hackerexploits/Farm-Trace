@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:FPI-{YY}-{#####}",
  "creation": "2026-02-17 01:07:13.032625",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -15,8 +16,13 @@
   "season",
   "purchase_date",
   "uom",
+  "currency",
   "produce_section",
-  "items"
+  "items",
+  "totals_section",
+  "total_qty",
+  "column_break_wpyn",
+  "total_amount"
  ],
  "fields": [
   {
@@ -102,16 +108,43 @@
    "fieldtype": "Link",
    "label": "Item",
    "options": "Item"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total Qty"
+  },
+  {
+   "fieldname": "column_break_wpyn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "options": "currency"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-17 01:34:29.057929",
+ "modified": "2026-02-27 17:46:49.259005",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm Purchase Intake",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
