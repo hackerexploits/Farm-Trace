@@ -73,6 +73,8 @@ def get_items_from_farm_intake(intake_names):
             all_items.append({
                 "item_code": row.item,
                 "item_name": row.item,
+                "rate": flt(row.unit_price),
+                "price_list_rate": flt(row.unit_price),
                 "qty": flt(row.quantity),
                 "uom": intake.uom,
                 "farm_purchase_intake": intake.name,

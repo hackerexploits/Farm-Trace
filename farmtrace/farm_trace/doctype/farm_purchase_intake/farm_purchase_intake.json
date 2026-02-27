@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:FPI-{YY}-{#####}",
  "creation": "2026-02-17 01:07:13.032625",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -139,10 +140,11 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-27 17:39:58.394480",
+ "modified": "2026-02-27 17:46:49.259005",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm Purchase Intake",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
