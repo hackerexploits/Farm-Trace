@@ -439,14 +439,6 @@ def _post_process_farm_doc(doc, sub, target_doctype):
 # ─── Image Attachment ─────────────────────────────────────────────────────────
 
 def _attach_kobo_image_to_doc(doc, sub, headers, target_doctype):
-	"""
-	Download a Kobo attachment and save it to the correct image field on the doc.
-
-	Farmer -> contract_image  (matched by xpath: photo_farmer, farmer_photo, photo)
-	Farm   -> photo           (matched by xpath: photo_farm, farm_photo, photo)
-
-	Add more doctypes to DOCTYPE_IMAGE_CONFIG at the top of this file.
-	"""
 	config = DOCTYPE_IMAGE_CONFIG.get(target_doctype)
 	if not config:
 		return
@@ -463,7 +455,6 @@ def _attach_kobo_image_to_doc(doc, sub, headers, target_doctype):
 	# ── Step 1: Find the right attachment by question_xpath ───────────────────
 	image_att = None
 
-	# Try each keyword in priority order (most specific first)
 	for keyword in xpath_keywords:
 		for att in attachments:
 			if att.get("is_deleted"):
@@ -475,7 +466,6 @@ def _attach_kobo_image_to_doc(doc, sub, headers, target_doctype):
 		if image_att:
 			break
 
-	# Fallback: first non-deleted image attachment
 	if not image_att:
 		for att in attachments:
 			if att.get("is_deleted"):
@@ -510,6 +500,9 @@ def _attach_kobo_image_to_doc(doc, sub, headers, target_doctype):
 		fname = fname.split("/")[-1]
 	if not fname.lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".webp")):
 		fname += ".jpg"
+
+	# ── Fix orientation AFTER fname is defined ────────────────────────────────
+	content = _fix_image_orientation(content, fname)
 
 	# ── Step 4: Save and attach ───────────────────────────────────────────────
 	try:
@@ -583,3 +576,59 @@ def _log_sync(sync_type, triggered_by, created, updated, failed, errors, kobo_re
 	)
 	log.insert(ignore_permissions=True)
 	frappe.db.commit()
+ 
+def _fix_image_orientation(content, fname):
+	"""
+	Auto-rotate image based on EXIF orientation tag.
+	Phones set EXIF orientation instead of rotating pixels,
+	which causes images to appear rotated in ERPNext.
+	"""
+	try:
+		from PIL import Image, ExifTags
+		import io
+
+		img = Image.open(io.BytesIO(content))
+
+		# Find the orientation tag key
+		orientation_key = None
+		for tag, name in ExifTags.TAGS.items():
+			if name == "Orientation":
+				orientation_key = tag
+				break
+
+		if orientation_key is None:
+			return content
+
+		exif = img._getexif()
+		if not exif or orientation_key not in exif:
+			return content
+
+		orientation = exif[orientation_key]
+
+		# Rotate/flip based on EXIF value
+		rotations = {
+			3: 180,
+			6: 270,   # Most common phone portrait: rotate 270 (or -90)
+			8: 90,
+		}
+		flips = {
+			2: Image.FLIP_LEFT_RIGHT,
+			4: Image.FLIP_TOP_BOTTOM,
+			5: Image.TRANSPOSE,
+			7: Image.TRANSVERSE,
+		}
+
+		if orientation in rotations:
+			img = img.rotate(rotations[orientation], expand=True)
+		elif orientation in flips:
+			img = img.transpose(flips[orientation])
+
+		# Save back to bytes
+		output = io.BytesIO()
+		fmt = "JPEG" if fname.lower().endswith((".jpg", ".jpeg")) else "PNG"
+		img.save(output, format=fmt, quality=95)
+		return output.getvalue()
+
+	except Exception as e:
+		frappe.log_error(f"Image orientation fix failed: {e}", "Kobo Image Orientation")
+	return content  # Return original if anything fails
