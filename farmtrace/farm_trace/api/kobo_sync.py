@@ -72,10 +72,11 @@ def run_kobo_sync(triggered_by="Scheduled", settings=None):
 
 	headers = {"Authorization": f"Token {token}"}
 
+	# field_mappings is a child table — cannot be selected via get_all
 	configs = frappe.get_all(
 		"Kobo Form Configuration",
 		filters={"enabled": 1},
-		fields=["name", "kobo_form_asset_uid", "target_doctype", "match_field", "field_mappings"],
+		fields=["name"],
 	)
 
 	if not configs:
