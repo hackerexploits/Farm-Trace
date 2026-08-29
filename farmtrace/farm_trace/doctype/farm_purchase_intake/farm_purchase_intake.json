@@ -1,14 +1,16 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:FPI-{YY}-{#####}",
+ "autoname": "field:kobo_submission_id",
  "creation": "2026-02-17 01:07:13.032625",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "section_break_3wq3",
   "amended_from",
+  "kobo_submission_id",
   "farmer",
+  "farmer_name",
   "farm",
   "crop",
   "item",
@@ -17,12 +19,27 @@
   "purchase_date",
   "uom",
   "currency",
+  "submitted_byuser",
+  "receipt_created",
+  "purchase_receipt",
   "produce_section",
   "items",
   "totals_section",
   "total_qty",
   "column_break_wpyn",
-  "total_amount"
+  "total_amount",
+  "payment_section",
+  "payment_method",
+  "mobile_money_section",
+  "mobile_provider",
+  "mobile_number",
+  "column_break_mobile",
+  "mobile_name",
+  "bank_section",
+  "bank_provider",
+  "bank_account_number",
+  "column_break_bank",
+  "account_name"
  ],
  "fields": [
   {
@@ -38,6 +55,13 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "kobo_submission_id",
+   "fieldtype": "Data",
+   "label": "Kobo Submission ID",
+   "no_copy": 1,
+   "unique": 1
   },
   {
    "fieldname": "farmer",
@@ -134,17 +158,106 @@
    "fieldtype": "Currency",
    "label": "Total Amount",
    "options": "currency"
+  },
+  {
+   "fieldname": "payment_section",
+   "fieldtype": "Section Break",
+   "label": "Payment"
+  },
+  {
+   "fieldname": "payment_method",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Payment Method",
+   "options": "\nCash\nMobile Money\nBank"
+  },
+  {
+   "depends_on": "eval:doc.payment_method=='Mobile Money'",
+   "fieldname": "mobile_money_section",
+   "fieldtype": "Section Break",
+   "label": "Mobile Money"
+  },
+  {
+   "fieldname": "mobile_provider",
+   "fieldtype": "Data",
+   "label": "Mobile Provider"
+  },
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "column_break_mobile",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "mobile_name",
+   "fieldtype": "Data",
+   "label": "Mobile Name"
+  },
+  {
+   "depends_on": "eval:doc.payment_method=='Bank'",
+   "fieldname": "bank_section",
+   "fieldtype": "Section Break",
+   "label": "Bank"
+  },
+  {
+   "fieldname": "bank_provider",
+   "fieldtype": "Data",
+   "label": "Bank Provider"
+  },
+  {
+   "fieldname": "bank_account_number",
+   "fieldtype": "Data",
+   "label": "Bank Account Number"
+  },
+  {
+   "fieldname": "column_break_bank",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "account_name",
+   "fieldtype": "Data",
+   "label": "Account Name"
+  },
+  {
+   "fieldname": "submitted_byuser",
+   "fieldtype": "Data",
+   "label": "Submitted By(User)"
+  },
+  {
+   "default": "0",
+   "fieldname": "receipt_created",
+   "fieldtype": "Check",
+   "label": "Receipt Created"
+  },
+  {
+   "fieldname": "purchase_receipt",
+   "fieldtype": "Data",
+   "label": "Purchase Receipt",
+   "options": "Purchase Receipt"
+  },
+  {
+   "fetch_from": "farmer.full_name",
+   "fieldname": "farmer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Farmer Name"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-27 17:46:49.259005",
+ "modified": "2026-08-29 21:43:34.392424",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm Purchase Intake",
- "naming_rule": "Expression",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

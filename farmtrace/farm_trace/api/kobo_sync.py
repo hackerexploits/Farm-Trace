@@ -3,6 +3,7 @@
 
 import frappe
 from frappe import _
+from frappe.utils import flt, getdate
 
 
 # ─── Constants ────────────────────────────────────────────────────────────────
@@ -14,6 +15,17 @@ RAW_VALUE_FIELDS = {"landmark", "farm_boundary", "gps", "farm_gps", "boundary"}
 DOCTYPE_IMAGE_CONFIG = {
 	"Farmer": ("contract_image", ["photo_farmer", "farmer_photo", "photo"]),
 	"Farm":   ("photo",          ["photo_farm", "farm_photo", "photo"]),
+}
+
+
+# DocTypes that may auto-create a stub Farmer when the link is missing
+FARMER_AUTO_CREATE_DOCTYPES = {"Farm", "Farm Purchase Intake"}
+
+# Kobo payment_method slugs -> Farm Purchase Intake Select options
+PAYMENT_METHOD_MAP = {
+	"mobile": "Mobile Money",
+	"bank": "Bank",
+	"cash": "Cash",
 }
 
 
@@ -101,8 +113,11 @@ def run_kobo_sync(triggered_by="Scheduled", settings=None):
 
 def _sync_single_form(base_url, headers, config, triggered_by):
 	"""Sync one Kobo form to its target DocType."""
-	field_map = _build_field_map(config.field_mappings or [])
-	if not field_map:
+	parent_map, child_maps = _split_field_mappings(
+		config.field_mappings or [],
+		target_doctype=config.target_doctype,
+	)
+	if not parent_map and not child_maps:
 		return {"message": "No field mappings configured", "created": 0, "updated": 0, "failed": 0}
 
 	submissions, raw_response = _fetch_kobo_submissions(base_url, headers, config.kobo_form_asset_uid)
@@ -115,8 +130,10 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 	for sub in submissions:
 		try:
 			values = {}
-			for kobo_key, target_field in field_map.items():
+			for kobo_key, target_field in parent_map.items():
 				val = _get_kobo_value(sub, kobo_key)
+				if isinstance(val, (list, dict)):
+					continue
 				if val is not None and val != "":
 					values[target_field] = str(val).strip() if val else None
 
@@ -128,14 +145,16 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 
 			# Title-case string values (skips raw coordinate fields)
 			values = _title_case_values(values)
-			# Resolve Link fields
-			values = _resolve_link_fields(target_doctype, values)
+			# Resolve Link fields (may create stub Farmer for Farm / Purchase Intake)
+			values = _resolve_link_fields(target_doctype, values, sub=sub)
 
 			existing = frappe.db.get_value(target_doctype, {match_field: match_val}, "name")
 			if existing:
 				doc = frappe.get_doc(target_doctype, existing)
 				_set_doc_values(doc, values)
+				_apply_child_table_mappings(doc, sub, child_maps, replace_existing=True)
 				_post_process_farm_doc(doc, sub, target_doctype)
+				_post_process_farm_purchase_intake_doc(doc, target_doctype)
 				doc.flags.ignore_permissions = True
 				doc.save()
 				updated += 1
@@ -143,7 +162,9 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 				doc = frappe.new_doc(target_doctype)
 				_set_doc_values(doc, values)
 				_fill_required_fields(doc, target_doctype, match_field, match_val, values, sub)
+				_apply_child_table_mappings(doc, sub, child_maps, replace_existing=True)
 				_post_process_farm_doc(doc, sub, target_doctype)
+				_post_process_farm_purchase_intake_doc(doc, target_doctype)
 				doc.flags.ignore_permissions = True
 				doc.insert()
 				created += 1
@@ -172,6 +193,8 @@ def _get_kobo_value(sub, kobo_key):
 	Get value from Kobo submission.
 	Tries exact key first, then any key ending with /kobo_key.
 	e.g. kobo_key='first_name' matches 'farmer_registration/first_name'
+	e.g. kobo_key='mobile_payment/mobile_provider' matches
+	     'crop_procurement/mobile_payment/mobile_provider'
 	"""
 	if not kobo_key:
 		return None
@@ -180,23 +203,194 @@ def _get_kobo_value(sub, kobo_key):
 	if val is not None and val != "":
 		return val
 
-	if "/" not in kobo_key:
-		for key, v in sub.items():
-			if key.endswith("/" + kobo_key) and v is not None and v != "":
-				return v
+	suffix = "/" + kobo_key.lstrip("/")
+	for key, v in sub.items():
+		if key.endswith(suffix) and v is not None and v != "":
+			return v
 
 	return None
 
 
-def _build_field_map(mappings):
-	"""Build kobo_field -> target_field dict from child table."""
-	out = {}
+def _infer_child_table(target_doctype):
+	"""Resolve child table field when repeat-group mappings omit target_child_table."""
+	if not target_doctype:
+		return ""
+
+	meta = frappe.get_meta(target_doctype)
+	table_fields = [df.fieldname for df in meta.fields if df.fieldtype == "Table"]
+	if len(table_fields) == 1:
+		return table_fields[0]
+	if "items" in table_fields:
+		return "items"
+	return ""
+
+
+def _split_field_mappings(mappings, target_doctype=None):
+	"""Split mappings into parent fields and child-table repeat group mappings."""
+	parent_map = {}
+	child_maps = {}
+
 	for m in mappings:
-		kobo   = (m.get("kobo_field_name") or "").strip()
+		kobo = (m.get("kobo_field_name") or "").strip()
 		target = (m.get("target_field") or m.get("farmer_field") or m.get("farm_field") or "").strip()
-		if kobo and target:
-			out[kobo] = target
-	return out
+		repeat_group = (m.get("kobo_repeat_group") or "").strip()
+
+		if not kobo or not target:
+			continue
+
+		if repeat_group:
+			child_table = (m.get("target_child_table") or "").strip() or _infer_child_table(target_doctype)
+			if child_table:
+				key = (repeat_group, child_table)
+				child_maps.setdefault(key, {})[kobo] = target
+			else:
+				frappe.log_error(
+					f"Kobo mapping for '{kobo}' has repeat group '{repeat_group}' but no valid "
+					f"Target Child Table on {target_doctype or 'the target DocType'}.",
+					"Kobo Child Mapping Error",
+				)
+		else:
+			parent_map[kobo] = target
+
+	return parent_map, child_maps
+
+
+def _build_field_map(mappings):
+	"""Build kobo_field -> target_field dict from child table (parent fields only)."""
+	parent_map, _child_maps = _split_field_mappings(mappings)
+	return parent_map
+
+
+def _get_kobo_repeat_group(sub, repeat_group_key, field_map=None):
+	"""
+	Fetch Kobo repeat group rows as a list of dicts.
+	Supports repeat groups stored as JSON arrays or comma-separated scalar strings.
+	"""
+	val = _get_kobo_value(sub, repeat_group_key)
+	if isinstance(val, list):
+		return [row for row in val if isinstance(row, dict)]
+
+	if isinstance(val, str) and val.strip():
+		parts = [part.strip() for part in val.split(",") if part.strip()]
+		if parts:
+			scalar_field = next(iter(field_map.keys()), None) if field_map else None
+			if not scalar_field:
+				scalar_field = repeat_group_key.split("/")[-1] if "/" in repeat_group_key else repeat_group_key
+			return [{scalar_field: part} for part in parts]
+
+	return []
+
+
+def _get_repeat_row_value(row, kobo_field_name, repeat_group_key):
+	"""Get a field value from one Kobo repeat-group row."""
+	if not row or not kobo_field_name:
+		return None
+
+	repeat_group_key = (repeat_group_key or "").strip().rstrip("/")
+	candidates = [kobo_field_name]
+	if repeat_group_key and not kobo_field_name.startswith(repeat_group_key):
+		candidates.append(f"{repeat_group_key}/{kobo_field_name}")
+
+	for key in candidates:
+		val = row.get(key)
+		if val is not None and val != "":
+			return val
+
+	for key, val in row.items():
+		if val is None or val == "":
+			continue
+		if key == kobo_field_name or key.endswith("/" + kobo_field_name):
+			return val
+		if kobo_field_name.lower() == "barcode" and key.lower().endswith("/barcode"):
+			return val
+
+	return None
+
+
+def _apply_child_table_mappings(doc, sub, child_maps, replace_existing=True):
+	"""Map Kobo repeat groups onto ERPNext child tables."""
+	if not child_maps:
+		return
+
+	parent_meta = doc.meta
+
+	for (repeat_group, child_table), field_map in child_maps.items():
+		df = parent_meta.get_field(child_table)
+		if not df or df.fieldtype != "Table" or not df.options:
+			frappe.log_error(
+				f"Target child table '{child_table}' not found on {doc.doctype}.",
+				"Kobo Child Mapping Error",
+			)
+			continue
+
+		rows = _get_kobo_repeat_group(sub, repeat_group, field_map)
+		if not rows:
+			continue
+
+		if replace_existing:
+			doc.set(child_table, [])
+
+		child_meta = frappe.get_meta(df.options)
+		for row_data in rows:
+			row_values = {}
+			for kobo_field, target_field in field_map.items():
+				val = _get_repeat_row_value(row_data, kobo_field, repeat_group)
+				if val is None or val == "":
+					continue
+				row_values[target_field] = val
+
+			if not row_values:
+				continue
+
+			child_row = doc.append(child_table, {})
+			_set_child_row_values(child_row, row_values, child_meta)
+
+
+def _set_child_row_values(child_row, values, child_meta):
+	"""Set normalized values on a child-table row."""
+	for fieldname, value in values.items():
+		if not hasattr(child_row, fieldname):
+			continue
+		value = _normalize_value_for_field(child_meta, fieldname, value)
+		child_row.set(fieldname, value)
+
+
+def _post_process_farm_purchase_intake_doc(doc, target_doctype):
+	"""Fill item, amounts, and totals on Farm Purchase Intake after Kobo sync."""
+	if target_doctype != "Farm Purchase Intake":
+		return
+
+	if doc.get("payment_method"):
+		normalized = PAYMENT_METHOD_MAP.get(str(doc.payment_method).strip().lower())
+		if normalized:
+			doc.payment_method = normalized
+
+	if doc.get("purchase_date"):
+		doc.season = str(getdate(doc.purchase_date).year)
+
+	item_from_crop = None
+	if doc.get("crop"):
+		item_from_crop = frappe.db.get_value("Crop", doc.crop, "item")
+
+	total_qty = 0
+	total_amount = 0
+
+	for row in doc.get("items") or []:
+		if not row.get("item") and item_from_crop:
+			row.item = item_from_crop
+
+		qty = flt(row.get("quantity"))
+		rate = flt(row.get("unit_price"))
+		row.amount = qty * rate
+		total_qty += qty
+		total_amount += flt(row.amount)
+
+	if hasattr(doc, "total_qty"):
+		doc.total_qty = total_qty
+	if hasattr(doc, "total_amount"):
+		doc.total_amount = total_amount
+	if not doc.get("item") and item_from_crop:
+		doc.item = item_from_crop
 
 
 # ─── Value Normalization ──────────────────────────────────────────────────────
@@ -342,7 +536,7 @@ def _set_doc_values(doc, values):
 			setattr(doc, k, v)
 
 
-def _resolve_link_fields(target_doctype, values):
+def _resolve_link_fields(target_doctype, values, sub=None):
 	"""Try to resolve Link field values against existing DB records."""
 	meta = frappe.get_meta(target_doctype)
 	for fieldname, value in list(values.items()):
@@ -360,7 +554,54 @@ def _resolve_link_fields(target_doctype, values):
 							break
 			if existing:
 				values[fieldname] = existing
+			elif (
+				df.options == "Farmer"
+				and target_doctype in FARMER_AUTO_CREATE_DOCTYPES
+			):
+				values[fieldname] = _get_or_create_farmer(value, sub=sub)
 	return values
+
+
+def _get_or_create_farmer(farmer_ref, sub=None):
+	"""Return Farmer name, creating a minimal stub record when missing."""
+	farmer_ref = str(farmer_ref).strip()
+	if not farmer_ref:
+		return farmer_ref
+
+	if frappe.db.exists("Farmer", farmer_ref):
+		return farmer_ref
+
+	for lookup_field in ("farmer_id", "farmer_code", "phone_number", "mobile_number"):
+		existing = frappe.db.get_value("Farmer", {lookup_field: farmer_ref}, "name")
+		if existing:
+			return existing
+
+	doc = frappe.new_doc("Farmer")
+	doc.farmer_id = farmer_ref
+	doc.farmer_code = farmer_ref
+	doc.first_name = f"Farmer {farmer_ref}"
+
+	if sub:
+		phone = _get_kobo_value(sub, "phone")
+		if phone:
+			doc.phone_number = str(phone).strip()
+
+		first_name = _get_kobo_value(sub, "first_name")
+		if first_name:
+			doc.first_name = str(first_name).strip()
+
+		last_name = (
+			_get_kobo_value(sub, "surname")
+			or _get_kobo_value(sub, "last_name")
+		)
+		if last_name:
+			doc.last_name = str(last_name).strip()
+
+	doc.flags.ignore_permissions = True
+	doc.insert()
+
+	frappe.logger().info(f"[Kobo] Created stub Farmer '{doc.name}' for reference '{farmer_ref}'")
+	return doc.name
 
 
 def _fill_required_fields(doc, target_doctype, match_field, match_val, values, sub):

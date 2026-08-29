@@ -95,7 +95,7 @@ function calculate_total_hectares(frm) {
 		method: "frappe.client.get_list",
 		args: {
 			doctype: "Farm",  // <-- confirm correct doctype name
-			fields: ["sum(hectares) as total"],
+			fields: [{"SUM": "hectares", "as": "total"}],
 			filters: {
 				farmer: frm.doc.name
 			},

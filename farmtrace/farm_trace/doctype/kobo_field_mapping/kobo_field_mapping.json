@@ -4,17 +4,33 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "kobo_repeat_group",
+  "target_child_table",
   "kobo_field_name",
   "target_field"
  ],
  "fields": [
+  {
+   "description": "Kobo repeat group path (e.g. crop_procurement/bag). Leave blank for parent fields.",
+   "fieldname": "kobo_repeat_group",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Kobo Repeat Group"
+  },
+  {
+   "description": "Child table field on target DocType (e.g. items). Required when repeat group is set.",
+   "fieldname": "target_child_table",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Target Child Table"
+  },
   {
    "fieldname": "kobo_field_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Kobo Field Name",
    "reqd": 1,
-   "description": "Exact field name from Kobo form"
+   "description": "Parent field or field inside repeat group (e.g. farmer, barcode, bag_weight)"
   },
   {
    "fieldname": "target_field",
@@ -22,13 +38,13 @@
    "in_list_view": 1,
    "label": "Target Field",
    "reqd": 1,
-   "description": "Field name in target DocType (e.g. farmer_id, customer, grand_total)"
+   "description": "Parent or child-table field name (e.g. farmer, barcode, quantity)"
   }
  ],
  "index_web_pages_for_search": 0,
  "istable": 1,
  "links": [],
- "modified": "2026-02-05 14:00:00",
+ "modified": "2026-08-29 18:40:00.000000",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Kobo Field Mapping",
