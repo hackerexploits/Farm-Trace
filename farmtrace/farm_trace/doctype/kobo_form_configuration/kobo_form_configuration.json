@@ -87,7 +87,8 @@
    "fieldname": "field_mappings",
    "fieldtype": "Table",
    "label": "Field Mappings",
-   "options": "Kobo Field Mapping"
+   "options": "Kobo Field Mapping",
+   "description": "Parent fields: leave repeat group blank. Child rows: set Kobo Repeat Group (e.g. crop_procurement/bag) and Target Child Table (e.g. items)."
   },
   {
    "fieldname": "column_break_yugv",
@@ -95,7 +96,7 @@
   }
  ],
  "links": [],
- "modified": "2026-02-07 00:40:20.680199",
+ "modified": "2026-08-29 18:40:00.000000",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Kobo Form Configuration",

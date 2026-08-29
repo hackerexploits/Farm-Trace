@@ -3,7 +3,18 @@
 
 frappe.ui.form.on("Farm Purchase Intake", {
 	refresh(frm) {
+		if (frm.doc.purchase_date) {
+			set_season_from_purchase_date(frm);
+		}
 		calculate_totals(frm);
+	},
+
+	purchase_date(frm) {
+		set_season_from_purchase_date(frm);
+	},
+
+	validate(frm) {
+		set_season_from_purchase_date(frm);
 	},
 });
 
@@ -21,6 +32,16 @@ frappe.ui.form.on("Farm Purchase Intake Item", {
 		calculate_totals(frm);
 	},
 });
+
+function set_season_from_purchase_date(frm) {
+	if (!frm.doc.purchase_date) {
+		frm.set_value("season", "");
+		return;
+	}
+
+	const year = frappe.datetime.str_to_obj(frm.doc.purchase_date).getFullYear();
+	frm.set_value("season", String(year));
+}
 
 function calculate_row_amount(frm, cdt, cdn) {
 	const row = locals[cdt][cdn];
