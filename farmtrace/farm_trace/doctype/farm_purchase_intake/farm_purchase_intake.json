@@ -10,6 +10,7 @@
   "amended_from",
   "kobo_submission_id",
   "farmer",
+  "farmer_name",
   "farm",
   "crop",
   "item",
@@ -19,6 +20,8 @@
   "uom",
   "currency",
   "submitted_byuser",
+  "receipt_created",
+  "purchase_receipt",
   "produce_section",
   "items",
   "totals_section",
@@ -224,13 +227,33 @@
    "fieldname": "submitted_byuser",
    "fieldtype": "Data",
    "label": "Submitted By(User)"
+  },
+  {
+   "default": "0",
+   "fieldname": "receipt_created",
+   "fieldtype": "Check",
+   "label": "Receipt Created"
+  },
+  {
+   "fieldname": "purchase_receipt",
+   "fieldtype": "Data",
+   "label": "Purchase Receipt",
+   "options": "Purchase Receipt"
+  },
+  {
+   "fetch_from": "farmer.full_name",
+   "fieldname": "farmer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Farmer Name"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-29 19:21:27.851126",
+ "modified": "2026-08-29 21:43:34.392424",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farm Purchase Intake",

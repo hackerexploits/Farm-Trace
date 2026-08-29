@@ -7,6 +7,7 @@ frappe.ui.form.on("Farm Purchase Intake", {
 			set_season_from_purchase_date(frm);
 		}
 		calculate_totals(frm);
+		setup_purchase_receipt_buttons(frm);
 	},
 
 	purchase_date(frm) {
@@ -32,6 +33,49 @@ frappe.ui.form.on("Farm Purchase Intake Item", {
 		calculate_totals(frm);
 	},
 });
+
+function setup_purchase_receipt_buttons(frm) {
+	if (frm.doc.docstatus !== 1) {
+		return;
+	}
+
+	if (frm.doc.purchase_receipt) {
+		frm.add_custom_button(
+			__("Purchase Receipt"),
+			() => frappe.set_route("Form", "Purchase Receipt", frm.doc.purchase_receipt),
+			__("View")
+		);
+		return;
+	}
+
+	frm.add_custom_button(__("Purchase Receipt"), () => {
+		frappe.confirm(
+			__("Create a draft Purchase Receipt from this intake?"),
+			() => {
+				frappe.call({
+					method: "farmtrace.controller.purchase_receipt.create_purchase_receipt_from_intake",
+					args: {
+						intake_name: frm.doc.name,
+					},
+					freeze: true,
+					callback(r) {
+						if (!r.message) {
+							return;
+						}
+
+						frappe.show_alert({
+							message: __("Purchase Receipt {0} created", [r.message]),
+							indicator: "green",
+						});
+						frm.reload_doc().then(() => {
+							frappe.set_route("Form", "Purchase Receipt", r.message);
+						});
+					},
+				});
+			}
+		);
+	}, __("Create"));
+}
 
 function set_season_from_purchase_date(frm) {
 	if (!frm.doc.purchase_date) {

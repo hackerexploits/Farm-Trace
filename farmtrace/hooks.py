@@ -100,7 +100,16 @@ fixtures = [
         "filters": [
             ["name", "in", ["Farms Map", "Separator","Farm Satelite Map"]]
         ]
-    }
+    },
+    {
+        "dt": "Custom Field",
+        "filters": [
+            ["name", "in", [
+                "Purchase Receipt Item-farm_purchase_intake",
+                "Purchase Receipt Item-custom_transaction_barcode",
+            ]]
+        ],
+    },
 ]
 
 
@@ -163,6 +172,14 @@ fixtures = [
 # 		"on_trash": "method"
 # 	}
 # }
+
+doc_events = {
+	"Purchase Receipt": {
+		"on_submit": "farmtrace.controller.purchase_receipt.update_intake_receipt_status",
+		"on_cancel": "farmtrace.controller.purchase_receipt.clear_intake_receipt_status",
+		"on_trash": "farmtrace.controller.purchase_receipt.clear_intake_receipt_status_on_trash",
+	},
+}
 
 # Scheduled Tasks
 # ---------------

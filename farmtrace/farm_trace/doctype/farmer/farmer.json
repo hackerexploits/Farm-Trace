@@ -1041,7 +1041,7 @@
    "link_fieldname": "farmer"
   }
  ],
- "modified": "2026-02-17 01:55:27.446714",
+ "modified": "2026-08-29 21:38:16.960133",
  "modified_by": "Administrator",
  "module": "Farm Trace",
  "name": "Farmer",
@@ -1063,6 +1063,7 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
+ "search_fields": "first_name",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

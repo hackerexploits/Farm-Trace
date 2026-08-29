@@ -1,0 +1,25 @@
+[
+ {
+  "doctype": "Custom Field",
+  "dt": "Purchase Receipt Item",
+  "fieldname": "farm_purchase_intake",
+  "fieldtype": "Link",
+  "insert_after": "item_code",
+  "label": "Farm Purchase Intake",
+  "options": "Farm Purchase Intake",
+  "read_only": 1,
+  "module": "Farm Trace",
+  "name": "Purchase Receipt Item-farm_purchase_intake"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Purchase Receipt Item",
+  "fieldname": "custom_transaction_barcode",
+  "fieldtype": "Data",
+  "insert_after": "farm_purchase_intake",
+  "label": "Transaction Barcode",
+  "read_only": 1,
+  "module": "Farm Trace",
+  "name": "Purchase Receipt Item-custom_transaction_barcode"
+ }
+]
