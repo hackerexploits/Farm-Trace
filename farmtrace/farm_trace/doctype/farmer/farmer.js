@@ -88,33 +88,22 @@ function calculate_age(frm) {
 	);
 }
 function calculate_total_hectares(frm) {
+	if (!frm.doc.name || frm.is_new()) return;
 
-	if (!frm.doc.name) return;
+	frappe.db
+		.get_list("Farm", {
+			fields: ["hectares"],
+			filters: { farmer: frm.doc.name },
+			limit: 0,
+		})
+		.then((farms) => {
+			const total = (farms || []).reduce((sum, farm) => sum + flt(farm.hectares), 0);
 
-	frappe.call({
-		method: "frappe.client.get_list",
-		args: {
-			doctype: "Farm",  // <-- confirm correct doctype name
-			fields: [{"SUM": "hectares", "as": "total"}],
-			filters: {
-				farmer: frm.doc.name
-			},
-			limit_page_length: 1
-		},
-		callback: function(r) {
-
-			let total = 0;
-
-			if (r.message && r.message.length) {
-				total = r.message[0].total || 0;
-			}
-
-			$(frm.fields_dict['total_farmhac'].wrapper).html(
+			$(frm.fields_dict.total_farmhac.wrapper).html(
 				`<div style="font-weight:600; font-size:14px;">
-					Total Hectares: 
+					Total Hectares:
 					<span style="color:#2E7D32">${total}</span>
 				</div>`
 			);
-		}
-	});
+		});
 }
