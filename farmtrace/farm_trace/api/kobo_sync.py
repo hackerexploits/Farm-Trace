@@ -3,7 +3,7 @@
 
 import frappe
 from frappe import _
-from frappe.utils import flt, getdate
+from frappe.utils import cint, flt, getdate
 
 
 # ─── Constants ────────────────────────────────────────────────────────────────
@@ -124,7 +124,7 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 	target_doctype = config.target_doctype
 	match_field = config.match_field or "name"
 
-	created, updated, failed = 0, 0, 0
+	created, updated, failed, skipped = 0, 0, 0, 0
 	errors = []
 
 	for sub in submissions:
@@ -151,6 +151,10 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 			existing = frappe.db.get_value(target_doctype, {match_field: match_val}, "name")
 			if existing:
 				doc = frappe.get_doc(target_doctype, existing)
+				# Submitted/cancelled docs cannot safely replace child rows or totals
+				if cint(doc.docstatus) != 0:
+					skipped += 1
+					continue
 				_set_doc_values(doc, values)
 				_apply_child_table_mappings(doc, sub, child_maps, replace_existing=True)
 				_post_process_farm_doc(doc, sub, target_doctype)
@@ -179,9 +183,10 @@ def _sync_single_form(base_url, headers, config, triggered_by):
 	_log_sync(sync_label, triggered_by, created, updated, failed, errors, kobo_response=raw_response)
 
 	return {
-		"message": f"{created} created, {updated} updated, {failed} failed",
+		"message": f"{created} created, {updated} updated, {skipped} skipped, {failed} failed",
 		"created": created,
 		"updated": updated,
+		"skipped": skipped,
 		"failed": failed,
 	}
 
@@ -381,14 +386,14 @@ def _post_process_farm_purchase_intake_doc(doc, target_doctype):
 
 		qty = flt(row.get("quantity"))
 		rate = flt(row.get("unit_price"))
-		row.amount = qty * rate
+		row.amount = flt(qty * rate, 2)
 		total_qty += qty
 		total_amount += flt(row.amount)
 
 	if hasattr(doc, "total_qty"):
-		doc.total_qty = total_qty
+		doc.total_qty = flt(total_qty, 3)
 	if hasattr(doc, "total_amount"):
-		doc.total_amount = total_amount
+		doc.total_amount = flt(total_amount, 2)
 	if not doc.get("item") and item_from_crop:
 		doc.item = item_from_crop
 
