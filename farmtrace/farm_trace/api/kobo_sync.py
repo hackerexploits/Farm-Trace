@@ -780,19 +780,36 @@ def _attach_kobo_image_to_doc(doc, sub, headers, target_doctype):
 # ─── Kobo API ─────────────────────────────────────────────────────────────────
 
 def _fetch_kobo_submissions(base_url, headers, asset_uid):
-	"""Fetch submissions from Kobo API v2. Returns (submissions_list, raw_response_text)."""
-	url = f"{base_url}/api/v2/assets/{asset_uid}/data/"
+	"""Fetch all submissions from Kobo API v2, following pagination.
+
+	Returns (submissions_list, raw_response_text_of_first_page).
+	"""
+	import requests
+
+	url = f"{base_url}/api/v2/assets/{asset_uid}/data/?limit=100&start=0"
+	all_results = []
+	raw_response = ""
+
 	try:
-		import requests
-		resp = requests.get(url, headers=headers, timeout=60)
-		raw_response = resp.text
-		resp.raise_for_status()
-		data = resp.json()
-		if isinstance(data, dict) and "results" in data:
-			return data["results"], raw_response
-		if isinstance(data, list):
-			return data, raw_response
-		return [], raw_response
+		while url:
+			resp = requests.get(url, headers=headers, timeout=60)
+			if not raw_response:
+				raw_response = resp.text
+			resp.raise_for_status()
+			data = resp.json()
+
+			if isinstance(data, list):
+				all_results.extend(data)
+				break
+
+			if isinstance(data, dict):
+				all_results.extend(data.get("results") or [])
+				url = data.get("next")
+				continue
+
+			break
+
+		return all_results, raw_response
 	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), "Kobo API Error")
 		raise frappe.ValidationError(_("Kobo API error: {0}").format(str(e)))
